@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+
+    <div class="container-fluid mt-2 mb-2">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{'/tripulante/librovuelo'}">Libro de vuelo</a> >
+                    <span>Mostrar Horas</span>
+                </h2>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> FOLIADO DE HORAS</h2>
+
+
+            </div>
+
+
+            <div class="col-md-1"></div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del empleado</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <!--Informacion de la persona-->
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Apellido/s y Nombre/s</th>
+                        <th scope="col">Legajo</th>
+                        <th scope="col">Fecha de ingreso</th>
+                        <th scope="col">Cargo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.apellido + ', ' + user.nombre}"></td>
+                        <td th:text="${user.legajo}"></td>
+                        <td th:text="${user.fechaIngreso}"></td>
+                        <td th:text="${user.tipoCargo}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--FIN Informacion de la persona-->
+
+        <!--Horas-->
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4  th:if="${foliado == null}"><i class="bi bi-bookmark-fill me-2 fly-color"></i> Total de horas foleadas anteriormente</h4>
+                <h4 th:if="${foliado != null}"><i class="bi bi-bookmark-fill me-2 fly-color"></i> Total de horas foleadas </h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-5">
+
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Total horas diurnas foliados</th>
+                        <th scope="col">Total horas nocturnas foliados</th>
+                        <th scope="col">Total horas foliados foliados</th>
+                        <th scope="col">Total horas Aterrizaje foliados</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${#numbers.formatDecimal(totalHorasFoliadasDiurnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(totalHorasFoliadaNocturnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(totalHorasFoliadas, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td th:text="${totalAterrizajesFoliados}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--Fin Horas-->
+
+        <!--Vuelos-->
+
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div th:if="${foliado == null}"  class="col-md-5">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Horas no foliadas</h4>
+            </div>
+
+            <div th:if="${foliado != null}"  class="col-md-5">
+                <h4 ><i class="bi bi-bookmark-fill me-2 fly-color"></i>  Horas  foliada el  <span th:text="${foliado.fechaFoliado}" />   </h4>
+            </div>
+            <div th:if="${foliado == null}"  class="col-md-5 text-end pb-3">
+                <a class="btn btn-warning" th:href="@{|/tripulante/foliado/generarfoliado|}" onclick="return confirm('¿Realmente desea generar un nuevo foliado?');">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                        <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+                        <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    Generar foliado
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 table-responsive">
+
+                <table class="table table-bordered table-striped ">
+                    <thead>
+                    <tr class="text-center">
+                        <th>Hora de despegue</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th>Hora de aterrizaje</th>
+                        <th>Finalidad del vuelo</th>
+                        <th>Marca</th>
+                        <th>Matrícula</th>
+                        <th>Folio RVA</th>
+                        <th>De día</th>
+                        <th>De noche</th>
+                        <th>Total</th>
+                        <th>Aterrizajes</th>
+                        <th>Instructor del TCP</th>
+                        <th>Tipo de Aeronave</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:if="${vuelosRealizados.empty}">
+                        <td class="text-center" colspan="15">No hay vuelos disponibles</td>
+                    </tr>
+                    <tr class="text-center" th:unless="${vuelosRealizados.size()==0}" th:each="vr : ${vuelosRealizados}">
+                        <td th:text="${#temporals.format(vr.fechahoraDespegue,'dd-MM-yyyy HH:mm')}"></td>
+                        <td th:text="${vr.aeropuertoOrigen.codigo}" th:title="${vr.aeropuertoOrigen.nombre + ' - ' + vr.aeropuertoOrigen.provincia}"></td>
+                        <td th:text="${vr.aeropuertoDestino.codigo}" th:title="${vr.aeropuertoDestino.nombre + ' - ' + vr.aeropuertoDestino.provincia}"></td>
+                        <td th:text="${#temporals.format(vr.fechahoraAterrizaje,'dd-MM-yyyy HH:mm')}"></td>
+                        <td th:text="${vr.finalidadDelVuelo}"></td>
+                        <td th:text="${vr.avion.marca}"></td>
+                        <td th:text="${vr.avion.matricula}"></td>
+                        <td th:text="${vr.folioRVA}"></td>
+                        <td th:text="${#numbers.formatDecimal(vr.horasDiurnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(vr.horasNocturnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(vr.totalDeHoras, 1, 'COMMA', 1, 'POINT')}"></td>
+                        <td>1</td> <!--Columna aterrizajes: Revisar de donde se obtiene el dato-->
+                        <td th:text="${vr.instructorTcp}"></td>
+                        <td th:text="${vr.tipoAeronave}"></td>
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <nav th:if="${!vuelosRealizados.empty}" aria-label="Pagination">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${prev == 0 ? 'disabled': ''}">
+                                    <a class="page-link" th:href="@{|/tripulante/foliados/verhorasfoliadas?id=${idFoliado}&page=${prev}|}">Anterior</a>
+
+                                </li>
+                                <li class="page-item" th:each="page : ${pages}" th:classappend="${current == page ? 'active': ''}">
+                                    <a class="page-link" th:href="@{|/tripulante/foliados/verhorasfoliadas?id=${idFoliado}&page=${page}|}" th:text="${page}"></a>
+
+
+                                </li>
+                                <li class="page-item" th:classappend="${current == last ? 'disabled': ''}">
+                                 <a   class="page-link" th:href="@{|/tripulante/foliados/verhorasfoliadas?id=${idFoliado}&page=${next}|}">Siguiente</a>
+
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+
+            </div>
+
+            <div class="col-md-1"></div>
+
+        </div>
+
+        <!--FIN Vuelos-->
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+.excel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.excel-tabla{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+    box-shadow:  0px 4px 8px #2c2c2c;
+    gap: 20px;
+    min-width: 1320px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+.excel-buttons{
+    background-color: #eee;
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    padding: 10px 10px;
+}
+
+
+.table-style{
+    width: 100%;
+}
+.table-style thead th,
+.table-style tbody tr th {
+    background-color: #ffcc00;
+    color: #2c2c2c;
+    font-weight: 700;
+    border: none;
+}
+
+.button{
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 0px;
+    color: #2c2c2c;
+    transition: .5s all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button svg:hover{
+    width: 24px;
+}
+
+.button svg{
+    width: 22px;
+}
+
+#back-button{
+    background-color: #FEBE0F;
+    border-radius: 50%;
+    font-weight: bold;
+}
+#back-button svg:hover{
+    width: 22px;
+}
+
+#guardar-button svg{
+    color: #6495ed;
+    width: 17px;
+}
+#guardar-button svg:hover{
+    width: 22px;
+}
+
+#add-row{
+    color:#14A44D;
+}
+
+#remove-row{
+    color: #DC4C64;;
+}
+
+
+/* Ensure the #handsontable-grid has proper positioning */
+#handsontable-grid {
+    position: relative;  /* Allow z-index to take effect */
+    z-index: 1;          /* Apply z-index for this element */
+}
+
+/* Set z-index for column headers */
+.handsontable .ht_master .ht_clone_top {
+    position: relative;  /* Ensure the positioning context */
+    z-index: 1;       /* Apply a higher z-index */
+}
+
+/* Set z-index for row headers */
+.handsontable .ht_master .ht_clone_left {
+    position: relative;  /* Ensure the positioning context */
+    z-index: 1;       /* Apply a higher z-index */
+}
+
+/* Optional: Set z-index for all header rows */
+.handsontable .ht_core thead {
+    position: relative;  /* Ensure the positioning context */
+    z-index: 1;       /* Apply a higher z-index */
+}
+
+#carga-registro{
+    visibility: hidden;
+    opacity: 0;
+    transition: 1s;
+}

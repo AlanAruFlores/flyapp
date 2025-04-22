@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+  <script src="https://cdn.tiny.cloud/1/a6vdvz9sejlchv64d0vru3my7nrendb2eggh9vy4dvpum6sg/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: 'textarea'
+    });
+  </script>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 mt-3">
+      <form method="post" th:action="@{|/admin/noticia/update|}" th:object="${noticiaUpdate}">
+        <div><input type="hidden" th:field="*{id}"></div>
+        <div class="mb-3 col-md-6 mx-auto">
+          <label class="form-label" for="titulo" style="font-size: 20px">Titulo</label>
+          <input class="form-control" id="titulo" required type="text" th:field="*{titulo}"/>
+        </div>
+        <div class="mb-3 col-md-6 mx-auto">
+          <label class="form-label" for="autor" style="font-size: 20px">Autor</label>
+          <input type="hidden" th:field="*{autor}">
+          <input class="form-control" id="autor" required type="text"
+                 th:value="${noticiaUpdate.autor.nombre + ' ' + noticiaUpdate.autor.apellido}" readonly/>
+        </div>
+        <div class="mb-3 col-md-6 mx-auto">
+          <label class="form-label" for="fecha" style="font-size: 20px">Fecha</label>
+          <input class="form-control" id="fecha" type="date" th:field="*{fecha}"/>
+        </div>
+        <div class="mb-3 col-md-6 mx-auto">
+          <label class="form-label" for="descripcion" style="font-size: 20px">Contenido</label>
+          <textarea class="form-control" id="descripcion" type="text" name="descripcion" th:utext="${noticiaUpdate.descripcion}"/></textarea>
+        </div>
+        <div class="col-md-6 mx-auto text-center mt-4"><input class="btn btn-warning mx-auto" type="submit" value="Actualizar noticia"></div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

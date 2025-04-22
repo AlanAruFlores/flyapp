@@ -1,0 +1,17 @@
+.nav-profile {
+    color: rgba(0,0,0,.55);
+}
+
+.nav-profile:hover,
+.nav-profile:focus{
+    color: rgba(0,0,0,.7);
+}
+
+.nav-tripulantes {
+    color: rgba(0,0,0,.55);
+}
+
+.nav-tripulantes:hover,
+.nav-tripulantes:focus{
+    color: rgba(0,0,0,.7);
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div id="result">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold border-bottom py-2 text-md-start"><i class="bi bi-book-half me-2 fly-color"></i>Edicion Programaciones</h2>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 border boder-dark p-4">
+                <form th:object="${programacionTripulante}" th:action="@{/tripulantes/editar-programacion-tripulantes}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{tripulante}">
+                    <input type="hidden" th:field="*{eventoCalendario}">
+
+                    <div class="mb-3">
+                        <label for="diaActividad" class="form-label">Dia de actividad</label>
+                        <input type="date" class="form-control" id="diaActividad"  th:field="*{diaActividad}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoActividad" class="form-label">Tipo de actividad</label>
+                        <select tabindex="13" id="tipoActividad" class="form-select"  th:field="*{tipoActividad}" required>
+                            <option th:each="ta : ${tipoActividades}"
+                                    th:value="${ta}"
+                                    th:text="${ta}"
+                                   th:attr="selected=${ta.name().equalsIgnoreCase(programacionTripulante.tipoActividad.name())}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aeropuertoOrigen" class="form-label">Aeropuerto Origen</label>
+                        <select tabindex="13" id="aeropuertoOrigen" class="form-select"  th:field="*{aeropuertoOrigen}" required>
+                            <option th:each="a : ${aeropuertos}"
+                                    th:value="${a.id}"
+                                    th:text="${a.getNombre()}+' ('+${a.getCodigo()}+')'"
+                                    th:attr="selected=${a.codigo.equalsIgnoreCase(programacionTripulante.aeropuertoOrigen.codigo)}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aeropuertoDestino" class="form-label">Aeropuerto Destino</label>
+                        <select tabindex="13" id="aeropuertoDestino" class="form-select"  th:field="*{aeropuertoDestino}" required>
+                            <option th:each="a : ${aeropuertos}"
+                                    th:value="${a.id}"
+                                    th:text="${a.getNombre()}+' ('+${a.getCodigo()}+')'"
+                                    th:attr="selected=${a.codigo.equalsIgnoreCase(programacionTripulante.aeropuertoDestino.codigo)}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="presentacion" class="form-label">Fecha de presentacion</label>
+                        <input type="date" class="form-control" id="presentacion"  th:field="*{fechaPresentacion}" th:value="${#temporals.format(programacionTripulante.fechaPresentacion,'yyyy-MM-dd')}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora_presentacion" class="form-label">Hora de presentacion</label>
+                        <input type="time" class="form-control" id="hora_presentacion"  th:field="*{horaPresentacion}" th:value="${#temporals.format(programacionTripulante.horaPresentacion,'HH:mm:ss')}">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="finalizacion" class="form-label">Fecha de destino</label>
+                        <input type="date" class="form-control" id="finalizacion"  th:field="*{fechaDestino}" th:value="${#temporals.format(programacionTripulante.fechaDestino,'yyyy-MM-dd')}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hora_destino" class="form-label">Hora de destino</label>
+                        <input type="time" class="form-control" id="hora_destino" th:field="*{horaDestino}" th:value="${#temporals.format(programacionTripulante.horaDestino,'HH:mm:ss')}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="despegue" class="form-label">Fecha de despegue</label>
+                        <input type="date" class="form-control" id="despegue"  th:field="*{fechaDespegue} "th:value="${#temporals.format(programacionTripulante.fechaDespegue,'yyyy-MM-dd')}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora_despegue" class="form-label">Hora de despegue</label>
+                        <input type="time" class="form-control" id="hora_despegue" th:field="*{horaDespegue}" th:value="${programacionTripulante.horaDespegue}">
+                    </div>
+
+                    <!--
+                    <input type="hidden" class="form-check-input" id="agendado" th:field="*{agendarCalendario}" th:value="${programacionTripulante.agendarCalendario}">
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="agendado" th:field="*{agendarCalendario}" th:attr="checked=${programacionTripulante.agendarCalendario}">
+                        <label class="form-check-label" for="agendado">Agendado</label>
+                    </div>-->
+                    <button type="submit" class="btn btn-warning">Editar</button>
+                </form>
+
+            </div>
+            <div class="col-md-1"></div>
+
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>
+
+
+

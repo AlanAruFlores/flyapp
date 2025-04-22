@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2">
+
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h2><i class="bi bi-book-half me-2 fly-color"></i>Mis tripulantes</h2>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <form method="get" th:action="@{|/lider/mistripulantes|}" class="d-flex align-items-center">
+                <div class="d-flex me-5">
+                    <label for="atributo" class="me-3">Filtrar</label>
+                    <select id="atributo" name="atributo" aria-label="atributo" class="form-select">
+                        <option th:value="legajo">Legajo</option>
+                        <option th:value="generacion">Generación</option>
+                        <option th:value="apellido">Apellido</option>
+                    </select>
+                </div>
+                <div class="d-flex me-5">
+                    <label for="inputBusqueda" class="me-3">Buscar por</label>
+                    <input id="inputBusqueda" name="valor" placeholder="Buscar" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-warning">Aplicar</button>
+                <div class="row m-5">
+                    <div class="col-md-10">
+                        <div class="col-md-10">
+                            <a style="width: max-content" class="btn btn-success" th:href="@{|/lider/mistripulantes/exportarTodosAExcel?atributo=${atributoExcel}&valor=${valorExcel}|}">
+                                Exportar todos a excel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="row mt-3" th:if="${error != null}">
+                <div>
+                    <div class="alert alert-danger" style="width: fit-content;" role="alert">
+                        <strong>Oops!</strong>
+                        <div class="ms-2" th:text="${error}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+
+</div>
+<div class="col-md-1"></div>
+
+<div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="col-md-12 table-responsive-xl">
+
+            <table class="table table-bordered table-striped ">
+                <thead>
+                <tr class="text-center">
+                    <th>Nombre y Apellido</th>
+                    <th>Mail</th>
+                    <th>Legajo</th>
+                    <th>Generacion</th>
+                    <th>Fecha de Ingreso</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:if="${error != null || tripulantes?.isEmpty}">
+                    <td colspan="15">No hay tripulantes asociados</td>
+                </tr>
+                <tr class="text-center" th:unless="${tripulantes?.size()==0}" th:each="t : ${tripulantes}">
+                    <td th:text="${t.nombre + ' ' + t.apellido}"></td>
+                    <td th:text="${t.mail}"></td>
+                    <td th:text="${t.legajo}"></td>
+                    <td th:text="${t.generacion.descripcion}"></td>
+                    <td th:text="${#temporals.format(t.fechaIngreso,'dd-MM-yyyy')}"></td>
+                    <td>
+                        <a sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_LIDER')" type="button"
+                           class="btn btn-warning mx-1 my-1" th:name="${t.id}" th:value="${t.id}"
+                           th:href="@{|/lider/mistripulantes/ver?id=${t.id}|}" title="Ver Info">
+                            Ver Info
+                        </a>
+                    </td>
+
+                </tbody>
+            </table>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>flybondiers</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>periodos</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <!-- JS -->
+    <script th:src="@{/js/nav.js}" async></script>
+    <script th:src="@{/js/nav-profile.js}" async></script>
+    <!-- CSS-->
+    <link th:href="@{/css/nav.css}" rel="stylesheet">
+    <link th:href="@{/css/librovuelo.css}" rel="stylesheet">
+    <link th:href="@{/css/profile.css}" rel="stylesheet">
+    <link th:href="@{/css/abm.css}" rel="stylesheet">
+</head>
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div>
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                                      th:href="@{/flybondiers}">Empleados</a>
+
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a class="btn btn-warning" th:href="@{/flybondiers}">
+                    Volver
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del Empleado</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <!--<div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Nro. Periodo</label>
+                                <input class="form-control" th:value="${periodo.id}" readonly th:field="*{id}"/>
+                            </div>
+                        </div>-->
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Apellido</label>
+                                <input class="form-control" th:value="${empleado.apellido}" READONLY
+                                       th:field="*{empleado.apellido}"/>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Nombre</label>
+                                <input class="form-control" th:value="${empleado.nombre}" readonly
+                                       th:field="*{empleado.nombre}"/>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Telefono</label>
+                                <input class="form-control" th:value="${empleado.telefono}" readonly
+                                       th:field="*{empleado.telefono}"/>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Mail</label>
+                                <input class="form-control" th:value="${empleado.mail}" readonly
+                                       th:field="*{empleado.mail}"/>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Generacion</label>
+                                <input class="form-control" th:value="${empleado.generacion.numero}" readonly
+                                       th:field="*{empleado.generacion.numero}"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <p class="fs-3 text-start">Tu Ruta</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>Recorrido a la casa de <span th:text="${empleado.apellido}"></span> <span
+                                                th:text="${empleado.nombre}"></span> con direccion en <span
+                                                th:text="${destino}"></span>.</p>
+                                    </div>
+                                    <!-- Muestra la dirección de origen -->
+                                    <p class="mb-1 fw-bold">Desde: <span class="text-start fw-normal px-0" th:text="${origen}"></span></p>
+                                    <!-- Muestra la dirección de destino -->
+                                    <p class="mb-1 fw-bold">Hasta: <span class="text-start fw-normal px-0" th:text="${destino}"></span></p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <iframe th:src="${link}"
+                                width="100%" height="81%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="referrer"></iframe>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+<script src="/js/librovuelo.js"></script>
+</body>
+</html>

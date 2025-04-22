@@ -1,0 +1,61 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+
+  <div th:replace="common :: nav-profile"></div>
+
+  <div class="row mt-3">
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+     <form th:object="${datosContacto}" method="post" th:action="@{|/tripulante/perfil/modificar-contacto?userId=${user.id}|}">
+
+       <div class="mb-3 col-sm-12 col-md-6">
+         <label for="nombre">Nombre/s</label>
+         <input tabindex="1" th:field="*{nombre}" type="text" class="form-control m-0" id="nombre" placeholder="Nombre/s"
+                autofocus="true" required>
+       </div>
+
+       <div class="mb-3 col-sm-12 col-md-6">
+         <label for="apellido">Apellido/s</label>
+         <input tabindex="2" th:field="*{apellido}" type="text" class="form-control m-0" id="apellido"
+                placeholder="Apellido/s" autofocus="true" required>
+       </div>
+
+       <div class="mb-3 col-sm-12 col-md-6">
+         <label for="telefono">Teléfono</label>
+         <input tabindex="4" th:field="*{telefono}" type="number" class="form-control m-0" id="telefono"
+                placeholder="Teléfono"
+                autofocus="true" required>
+       </div>
+
+       <div class="mb-3 col-sm-12 col-md-6">
+         <label for="parentezco">Parentezco</label>
+         <input tabindex="2" th:field="*{parentezco}" type="text" class="form-control m-0" id="parentezco"
+                placeholder="Parentezco" autofocus="true" required>
+       </div>
+       <div class="mb-3 col-sm-12 col-md-6">
+         <div class="row mt-3" th:if="${confirmado != null}">
+           <div>
+             <div class="alert alert-success" role="alert">
+               <strong>Listo!</strong>
+               <div class="ms-2" th:text="${confirmado}"></div>
+             </div>
+           </div>
+         </div>
+       </div>
+       <button class="btn btn-lg btn-warning">Confirmar</button>
+     </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+    <style>
+        .cards{
+            transition: 500ms all;
+        }
+        .cards:hover{
+            transform: scale(1.05);
+            z-index:999;
+        }
+    </style>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+
+
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold border-bottom py-2 text-md-start"><i class="bi bi-book-half me-2 fly-color"></i>Home</h2>
+            <div>
+                <div th:if="${noticias.empty}">
+                    <span>No hay noticias registradas</span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 d-sm-flex flex-sm-column align-items-center col-md-4 p-1 m-0 cards border-0" title="Click aqui para ver la noticia." th:unless="${noticias.size()==0}" th:each="noticia : ${noticias}">
+                        <div class="card mt-0 rounded-0 position-relative border-0 shadow-sm" style="max-width: 500px">
+                            <div class="card-body">
+                                <span class="bg-warning mb-2 p-2 text-white rounded-0"
+                                      style="font-size: 12px; font-weight: bold;"
+                                      th:text="${noticia.fecha}"></span>
+                                <h5 class="card-title mt-3 fs-4" th:text="${#strings.abbreviate(noticia.titulo,100)}"></h5>
+                                <p class="card-text" th:utext="${#strings.abbreviate(noticia.descripcion,130)}" style="font-size: 10px"></p>
+                            </div>
+                            <div style="padding-left: 1em; padding-bottom: 1em;">
+                            </div>
+                            <a class="card-link text-decoration-none text-secondary position-absolute bottom-0 top-0 left-0 right-0 d-block w-100" th:href="@{|/noticia/${noticia.id}|}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <nav aria-label="Pagination">
+                    <ul class="pagination justify-content-center ">
+                        <li class="page-item" th:classappend="${prev == 0 ? 'disabled': ''}">
+                            <a class="page-link"
+                               th:href="@{|/home?page=${prev}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Anterior</a>
+                        </li>
+                        <li class="page-item" th:each="page : ${pages}"
+                            th:classappend="${current == page ? 'active': ''}">
+                            <a class="page-link bg-warning border-0 text-dark"
+                               th:href="@{|/home?page=${page}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}"
+                               th:text="${page}"></a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${current == last ? 'disabled': ''}">
+                            <a class="page-link"
+                               th:href="@{|/home?page=${next}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

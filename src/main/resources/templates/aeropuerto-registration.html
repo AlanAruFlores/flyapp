@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <form method="post" th:action="@{/aeropuerto-registration/}" th:object="${newAeropuerto}">
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="codigo">Código</label>
+                        <input class="form-control" id="codigo" required type="text" th:field="*{codigo}"/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input class="form-control" id="nombre" required type="text" th:field="*{nombre}"/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="direccion">Dirección</label>
+                        <input class="form-control" id="direccion" required type="text" th:field="*{direccion}"/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="provincia">Provincia</label>
+                        <input class="form-control" id="provincia" required type="text" th:field="*{provincia}"/>
+                    </div>
+                    <input class="btn btn-warning" type="submit" value="Registrar Aeropuerto">
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="common::head"></div>
+</head>
+<body>
+    <div th:replace="common::nav"></div>
+    <div class="container-fluid mt-2 mb-2">
+        <form th:if="${!type.equalsIgnoreCase('tripulante')}" method="get" class="row mt-3" th:action="@{|/${type}/ver-ausencias|}">
+            <div class="col-md-0 col-lg-1"></div>
+            <div class="col-auto me-auto">
+                <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold border-bottom py-2 text-md-start"><i class="bi bi-bookmark-fill me-2 fly-color"></i>Registro de Ausencias</h2>
+                <div class="d-flex justify-content-around align-items-end gap-4">
+                    <div class="">
+                        <label class="form-label">Seleccione metodo de filtrado</label>
+                        <select id="selectEstado" name="atributo"
+                                class="form-select select-100px" aria-label="Filtro de estados"
+                                style="width: 300px">
+                            <option value="legajo" th:attr="selected=${atributo.equalsIgnoreCase('legajo')}">Legajo</option>
+                            <option value="dni" th:attr="selected=${atributo.equalsIgnoreCase('dni')}">DNI</option>
+                            <option value="nombre" th:attr="selected=${atributo.equalsIgnoreCase('nombre')}">Nombre</option>
+                            <option value="generacion" th:attr="selected=${atributo.equalsIgnoreCase('generacion')}">Generacion</option>
+                        </select>
+                        </div>
+                        <div>
+                            <label for="exampleDataList" class="form-label">Buscar</label>
+                            <input class="form-control" id="exampleDataList" placeholder="Buscar" name="valor" th:value="${valor}">
+                        </div>
+
+
+                </div>
+            </div>
+
+            <div class="mt-3 row">
+                <div class="col-md-0 col-lg-1"></div>
+
+                <div class="col">
+                    <label class="form-label ">Tipo de Ausencia</label>
+                    <select id="selectTipoAusencia" name="tipoAusencia"
+                            class="form-select select-100px" aria-label="Filtro de estados"
+                            style="width: 300px">
+                        <option value="">Todos</option>
+                        <option value="VAC15" th:attr="selected=${tipoAusencia.equalsIgnoreCase('VAC15')}">VAC15</option>
+                        <option value="OPUESTO10" th:attr="selected=${tipoAusencia.equalsIgnoreCase('OPUESTO10')}">OPUESTO10</option>
+                        <option value="ACCIDENTE" th:attr="selected=${tipoAusencia.equalsIgnoreCase('ACCIDENTE')}">ACCIDENTE</option>
+                        <option value="EMBARAZO" th:attr="selected=${tipoAusencia.equalsIgnoreCase('EMBARAZO')}">EMBARAZO</option>
+                        <option value="RECURRENT" th:attr="selected=${tipoAusencia.equalsIgnoreCase('RECURRENT')}">RECURRENT</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-0 col-lg-1"></div>
+
+                <div class="col" style="max-width: 200px">
+                    <label class="form-label">Desde</label>
+                    <input type="date" class="form-control" name="fechaDesde" th:value="${fechaDesdeData}">
+                </div>
+                <div class="col" style="max-width: 200px">
+                    <label class="form-label">Hasta</label>
+                    <input type="date" class="form-control" name="fechaHasta" th:value="${fechaHastaData}">
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-2">
+                <div class="col-md-0 col-lg-1"></div>
+                <div class="col d-flex justify-content-between">
+                    <button type="submit" class="btn btn-warning px-5">Filtrar</button>
+                    <div class="">
+                        <a class="btn btn-success text-white" th:href="@{|/${type}/ausencia/exportar-excel?atributo=${atributo}&valor=${valor}&tipoAusencia=${tipoAusencia}&fechaDesde=${fechaDesdeData}&fechaHasta=${fechaHastaData}|}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+                                <path d="M6 12v-2h3v2z"/>
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+                            </svg>
+                            Generar Excel
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div th:if="${type.equalsIgnoreCase('tripulante')}" class="row mt-3">
+            <div class="col-md-0 col-lg-1"></div>
+            <div class="col">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Registro de Ausencias</h4>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-0 col-lg-1"></div>
+            <div class="col-md-12 col-lg-11">
+                <div class="table-responsive-xl">
+                    <table class="table table-hover table-striped table-bordered text-nowrap align-middle text-center">
+                        <thead>
+                        <tr>
+                            <!--  <th id="idAbm" scope="col" class="text-center">Id</th> -->
+                            <th scope="col" class="text-center">Número de Ausencia</th>
+                            <th scope="col" class="text-center">Fecha Desde</th>
+                            <th scope="col" class="text-center">Fecha Hasta</th>
+                            <th scope="col" class="text-center">Tipo</th>
+                            <th scope="col" class="text-center">DNI</th>
+                            <th scope="col" class="text-center">Legajo</th>
+                            <th scope="col" class="text-center">Nombre</th>
+                            <th scope="col" class="text-center">Generacion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ausencia : ${ausencias}">
+                                <td th:text="${ausencia.id}"></td>
+                                <td th:text="${ausencia.fechaDesde}"></td>
+                                <td th:text="${ausencia.fechaHasta}"></td>
+                                <td th:text="${ausencia.tipoAusencia}"></td>
+                                <td th:text="${ausencia.user.dni}"></td>
+                                <td th:text="${ausencia.user.legajo}"></td>
+                                <td th:text="${ausencia.user.nombre}"></td>
+                                <td th:text="${ausencia.user.generacion.numero}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+
+            </div>
+            <div class="col-md-0 col-lg-1"></div>
+        </div>
+
+    </div>
+    <div th:replace="common::foot"></div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" style="margin-top: 1rem; margin-bottom: 1rem">
+            <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold border-bottom py-2 text-md-start" ><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{|/home|}">Home </a>><span>Ciclos Vacaciones</span>
+            </h2>
+        </div>
+        <div class="col-md-1"></div>
+
+
+        <div class="row">
+            <div class="col-md-1"></div>
+        </div>
+
+        <!--Ciclos-->
+        <div class="row mt-3 mb-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="row mt-1">
+                    <div class="col-md-12">
+                        <form method="get" th:action="@{/lider/mostrarciclosvacaciones}">
+                            <div class="row d-flex flex-xl-row flex-column gap-3 gap-xl-0">
+                                <div class="col-12 col-md-2 d-flex gap-2">
+                                    <label for="selectCantidadRegistros"
+                                           class="form-label col-form-label">Registros</label>
+                                    <select id="selectCantidadRegistros" name="recordsQuantity"
+                                            class="form-select select-100px h-100"
+                                            aria-label="Cantidad de registros por página">
+                                        <option th:each="cantidad : ${cantidadDeRegitrosPorPaginas}"
+                                                th:value="${cantidad}" th:text="${cantidad}"
+                                                th:selected="${cantidad} == ${recordsQuantity}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-3 d-flex gap-0 gap-md-2">
+                                    <label for="selectSort" class="form-label col-form-label w-75">Ordenar por</label>
+                                    <select id="selectSort" name="sortField" class="form-select select-150px h-100"
+                                            aria-label="Ordenar por">
+                                        <option th:each="sf : ${sortFields}" th:value="${sf.getKey()}"
+                                                th:text="${sf.getValue()}"
+                                                th:selected="${sf.getKey()} == ${sortField}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-2 d-flex gap-2">
+                                    <label for="selectOrientation" class="form-label col-form-label">Orientación</label>
+                                    <select id="selectOrientation" name="sortOrientation"
+                                            class="form-select select-100px" aria-label="Orientación">
+                                        <option th:each="so : ${sortOrientations}" th:value="${so}"
+                                                th:text="${so}" th:selected="${so} == ${orientation}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-5 d-flex flex-row justify-content-between">
+                                        <button type="submit" class="btn btn-warning">
+                                                Aplicar
+                                        </button>
+                                    <a class="btn btn-warning" th:href="@{/lider/ciclovacaciones/iraregistrar}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-send" viewBox="0 0 16 16">
+                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                        </svg>
+                                        Registrar ciclo
+                                    </a>
+
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12 table-responsive-xl">
+                                <table class="table table-bordered table-striped ">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th>Numero de Ciclo</th>
+                                        <th>Generacion</th>
+                                        <th>Comienzo de Ciclo</th>
+                                        <th>Finalizacion de Ciclo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr th:if="${cicloVacaciones.empty}">
+                                        <td colspan="15">No hay vacaciones disponibles</td>
+                                    </tr>
+                                    <tr class="text-center" th:unless="${cicloVacaciones.size()==0}"
+                                        th:each="vr : ${cicloVacaciones}">
+                                        <td th:text="${vr.numeroDeCiclo}"></td>
+                                        <td th:text="${vr.generacion.numero}"></td>
+                                        <td th:text="${#temporals.format(vr.comienzoCiclo,'dd-MM-yyyy')}"></td>
+                                        <td th:text="${#temporals.format(vr.finalizacionCiclo,'dd-MM-yyyy')}"></td>
+
+                                        <td>
+
+                                            <a type="button" class="btn btn-warning mx-1 my-1" title="Editar ciclo"
+                                               th:href="@{|/lider/ciclovacaciones/editar/${vr.id}|}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-pen" viewBox="0 0 16 16">
+                                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                                </svg>
+                                            </a>
+
+                                            <a type="button" class="btn btn-warning mx-1 my-1 deleteBtn"
+                                               title="Eliminar ciclo"
+                                               th:href="@{|/lider/ciclovacaciones/eliminar/${vr.id}|}"
+                                               onclick="return confirm('¿Realmente desea eliminar el Ciclo?');">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                    <path fill-rule="evenodd"
+                                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <nav aria-label="Pagination">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item" th:classappend="${prev == 0 ? 'disabled': ''}">
+                                                    <a class="page-link"
+                                                       th:href="@{|/lider/mostrarciclosvacaciones?page=${prev}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Anterior</a>
+                                                </li>
+                                                <li class="page-item" th:each="page : ${pages}"
+                                                    th:classappend="${current == page ? 'active': ''}">
+                                                    <a class="page-link bg-warning text-black border-0"
+                                                       th:href="@{|/lider/mostrarciclosvacaciones?page=${page}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}"
+                                                       th:text="${page}"></a>
+                                                </li>
+                                                <li class="page-item"
+                                                    th:classappend="${current == last ? 'disabled': ''}">
+                                                    <a class="page-link"
+                                                       th:href="@{|/lider/mostrarciclosvacaciones?page=${next}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Siguiente</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--FIN Ciclos-->
+
+
+    </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

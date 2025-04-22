@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result5">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{'/lider/detallePedido/'+${pedido.id}}"> Pedido de vacaciones </a> > <span
+                >Vacaciones a aprobar</span>
+                </h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+
+        <div class="mb-5" id="detallePedido">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                            Informacion del ciclo
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingOne">
+                        <div class="accordion-body">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="" id="Ciclo">
+                                <div class="row">
+                                    <label for="numCiclo">Nº de Ciclo</label>
+                                    <input class="text-start" id="numCiclo" th:value="${pedido.cicloVacaciones.numeroDeCiclo}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                                <div class="row">
+                                    <label for="gen">Generacion</label>
+                                    <input class="text-start" id="gen" th:value="${pedido.cicloVacaciones.generacion.numero}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                                <div class="row">
+                                    <label for="d">Desde</label>
+                                    <input class="text-start" id="d" th:value="${pedido.cicloVacaciones.comienzoCiclo}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                                <div class="row">
+                                    <label for="h">Hasta</label>
+                                    <input class="text-start" id="h" th:value="${pedido.cicloVacaciones.comienzoCiclo}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                            Informacion del tripulante
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingTwo">
+                        <div class="accordion-body">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="">
+                                <div class="row">
+                                    <label for="leg">Nº de Legajo</label>
+                                    <input class="text-start" id="leg" th:value="${pedido.user.legajo}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                                <div class="row">
+                                    <label for="nombre1">Nombre</label>
+                                    <input class="text-start" id="nombre1" th:value="${pedido.user.nombre}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                                <div class="row">
+                                    <label for="apellido1">Apellido</label>
+                                    <input class="text-start" id="apellido1" th:value="${pedido.user.apellido}"
+                                           style="border: none;pointer-events: none;"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                aria-controls="flush-collapseThree">
+                            Resumen Vacaciones
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseThree" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingThree">
+                        <div class="accordion-body">
+                            <input class="" id="fs"
+                                   style="width:100px;text-align:center;border: none;pointer-events: none;"
+                                   readonly>
+
+                            <div th:replace="common :: resumenvacaciones"></div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 30px">
+            <div class="col-md-1"></div>
+
+            <div class="container-fluid mt-2 mb-2">
+                <div class="row mb-5">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <form method="post" th:action="@{/lider/guardarausencia}" th:object="${resumenDeVacaciones}">
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="pedidoId">Id</label>
+                                <input class="form-control" id="pedidoId"  required  readonly type="text" th:field="*{pedidoId}" th:value="${resumenDeVacaciones.pedidoId}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="nombre">nombre</label>
+                                <input class="form-control" id="nombre" required readonly type="text" th:field="*{nombre}" th:value="${resumenDeVacaciones.nombre}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="userId">userId</label>
+                                <input class="form-control" id="userId" required readonly type="text" th:field="*{userId}" th:value="${resumenDeVacaciones.userId}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="apellido">apellido</label>
+                                <input class="form-control" id="apellido" required readonly type="text" th:field="*{apellido}" th:value="${resumenDeVacaciones.apellido}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="tipoAusencia">tipoAusencia</label>
+                                <input class="form-control" id="tipoAusencia" required readonly type="text" th:field="*{tipoAusencia}" th:value="${resumenDeVacaciones.tipoAusencia}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="fechaInicioAusencia">fechaInicioAusencia</label>
+                                <input class="form-control" id="fechaInicioAusencia" required  readonly type="text" th:field="*{fechaInicioAusencia}" th:value="${resumenDeVacaciones.fechaInicioAusencia}"/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="fechaFinalAusencia">fechaFinalAusencia</label>
+                                <input class="form-control" id="fechaFinalAusencia" required readonly type="text" th:field="*{fechaFinalAusencia}" th:value="${resumenDeVacaciones.fechaFinalAusencia}"/>
+                            </div>
+                            <input class="btn btn-warning" type="submit" value="Registrar Vacaciones">
+                        </form>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

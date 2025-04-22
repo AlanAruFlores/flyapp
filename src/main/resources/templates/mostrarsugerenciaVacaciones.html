@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i>Mostrar vacaciones Sugeridas</h2>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del empleado</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--Informacion de la persona-->
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Apellido/s y Nombre/s</th>
+                        <th scope="col">Legajo</th>
+                        <th scope="col">Fecha de ingreso</th>
+                        <th scope="col">Cargo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.apellido + ', ' + user.nombre}"></td>
+                        <td th:text="${user.legajo}"></td>
+                        <td th:text="${user.fechaIngreso}"></td>
+                        <td>TCP</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del Ciclo</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+
+
+            <div class="col-md-10">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nº de Ciclo</th>
+                        <th scope="col">Generacion</th>
+                        <th scope="col">Desde</th>
+                        <th scope="col">Hasta</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${cicloVacaciones.getNumeroDeCiclo()}"></td>
+                        <td th:text="${cicloVacaciones.getGeneracion().getNumero()}"></td>
+                        <td th:text="${cicloVacaciones.getComienzoCiclo()}"></td>
+                        <td th:text="${cicloVacaciones.getFinalizacionCiclo()}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            <div class="col-md-1"></div>
+            </div>
+    </div>
+
+</div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Periodos Disponibles</h4>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+<div class="mb-5" id="detallePedido">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div style="column-gap: 30px;">
+
+                                 <!-- tabla pedidos // ordenados descenciente -->
+                    <div>
+                        <div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Numero Ciclo </th>
+                                    <th scope="col">Codigo Generacion</th>
+                                    <th scope="col">Fecha de incicio vacacion</th>
+                                    <th scope="col">Tipo Vacacion</th>
+                                    <th scope="col">Cupos Disponibles</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${sugerenciaVacaciones.empty}">
+                                    <td class="text-center" colspan="5">No se han realizado pedidos</td>
+                                </tr>
+
+                                <tr class="text-center" th:each="s: ${sugerenciaVacaciones}">
+                                    <td th:text="${s.getCicloVacaciones().getNumeroDeCiclo()}"></td>
+                                    <td th:text="${s.getCicloVacaciones().getGeneracion().getNumero()}"></td>
+                                    <td th:text="${s.getPeriodo().getFechaInicio()}"></td>
+                                    <td th:text="${s.tipoAusencia}"></td>
+                                    <td th:text="${s.cantidadCupos}"></td>
+                                    <td>
+
+<!--                                        <a type="button" class="btn btn-warning mx-1 my-1" title="Generar Vacacion"  th:href="@{'/tripulante/pedido-vacaciones/editar?idPedido+' + ${s.getPeriodo().getId()} + '&tipovacacion=' + ${s.tipoAusencia} + '&usuarioVacacion=' + ${user.getId()}}"-->
+<!--                                                 class="bi bi-pen" viewBox="0 0 16 16">-->
+<!--                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
+
+                                        <a type="button" class="btn btn-warning mx-1 my-1" title="Generar Vacacion"
+
+
+                                           th:href="@{|/lider/generar-ausencia?idPeriodo=${s.getPeriodo().getId()}&pedidoId=${pedidoVacaciones.getId()}&tipoAusencia=${s.tipoAusencia}|}">
+
+<!--                                            th:href="@{'/lider/generar-ausencia/'+${pedido.id}+'/'+${pedido.fechaDesdeSegundaQuincenaPlanB}+'/'+${pedido.fechaHastaSegundaQuincenaPlanB}+'/'+'VAC15'}">-->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                 class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

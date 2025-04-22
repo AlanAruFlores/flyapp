@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <form method="post" th:action="@{|/generacion-update|}" th:object="${generacionUpdate}">
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="id"></label>
+          <input class="form-control" id="id" disabled required type="hidden" th:field="*{id}" th:value="${generacionUpdate.id}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="numero">Número</label>
+          <input class="form-control" id="numero" required type="text" th:field="*{numero}" th:value="${generacionUpdate.numero}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="nombre">Descripción</label>
+          <input class="form-control" id="nombre" required type="text" th:field="*{descripcion}" th:value="${generacionUpdate.descripcion}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaIngreso">Marca</label>
+          <input class="form-control" id="fechaIngreso" required type="date" th:field="*{fechaIngreso}" th:value="${generacionUpdate.fechaIngreso}"/>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#modificarGeneracionModal'">
+          Modificar Generacion
+        </button>
+        <!-- Modal -->
+        <div class="modal fade text-start" th:id="modificarGeneracionModal" tabindex="-1" th:aria-labelledby="modificarGeneracionModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar Generación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ¿Estás seguro que deseás modificar los datos de este generación? <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <input class="btn btn-success" type="submit" value="Modificar">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

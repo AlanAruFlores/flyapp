@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+  <link th:href="@{/css/documentacion.css}" rel="stylesheet">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div style="margin-left: 30%;" class="col-md-10">
+      <form enctype="multipart/form-data" method="post" th:action="@{${action}}" th:object="${documentacionActualizada}">
+
+        <div class="mb-3 col-md-6">
+          <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="titulo">Título de la documentación</label>
+          <input class="form-control" id="titulo" required type="text" th:value="${documentacionActualizada.titulo}" th:field="*{titulo}"/>
+        </div>
+        <div class="mb-3 col-sm-12 col-md-6">
+          <label for="cargos">Seleccioná el tipo de Documentacion</label>
+          <select id="cargos" class="form-select" aria-label="cargos" th:field="*{tipoDocumentacion}" required>
+            <option th:value="${documentacionActualizada.tipoDocumentacion}"
+                    th:text="${documentacionActualizada.tipoDocumentacion}"></option>
+            <option th:each="tipoDocumentacion : ${tipoDocumentacion}"
+                    th:value="${tipoDocumentacion}"
+                    th:text="${tipoDocumentacion}">
+            </option>
+          </select>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaDeCreacion">Fecha de creación</label>
+          <input class="form-control" id="fechaDeCreacion" required type="date" th:value="${documentacionActualizada.fechaDeCreacion}" th:field="*{fechaDeCreacion}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaDeVencimiento">Fecha de vencimiento</label>
+          <input class="form-control" id="fechaDeVencimiento" required type="date" th:value="${documentacionActualizada.fechaDeVencimiento}" th:field="*{fechaDeVencimiento}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="comentario">Comentario</label>
+          <textarea class="form-control" id="comentario" required type="text" th:value="${documentacionActualizada.comentario}" th:field="*{comentario}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="comentario">Notificacion</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="notificacionActivada" id="flexRadioDefault1"
+              th:attr="checked=${documentacionActualizada.notificacionActivada}?true:false" value="true" th:field="*{notificacionActivada}">
+            <label class="form-check-label" for="flexRadioDefault1">
+              Activar
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="notificacionActivada" id="flexRadioDefault2"
+                   th:attr="checked=${!documentacionActualizada.notificacionActivada} ? true:false " value="false" th:field="*{notificacionActivada}">
+            <label class="form-check-label" for="flexRadioDefault2">
+              Desactivar
+            </label>
+          </div>
+        </div>
+        <div class="mb-3 col-md-6">
+          <p class="highlight-text" th:text="${'Adjuntar Archivo'}"></p>
+
+            <ul class="list-group list-group-flush m-0">
+              <li class="list-group-item my-0" th:each="adjunto:${adjuntos}">
+                <a th:href="@{${adjunto.path}}" th:text="${adjunto.nombre}" title="Ver archivo"></a>
+                <a th:href="@{/eliminar_adjunto/{id}/{idAdjunto}(id=${documentacionActualizada.id},idAdjunto=${adjunto.id})}" type="button" class="btn btn-warning btn-sm mx-1 my-1 deleteBtn" title="Eliminar documentación"  onclick="return confirm('¿Está seguro que desea eliminar la documentación?');">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                       class="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                    <path fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                  </svg>
+                </a>
+              </li>
+
+            </ul>
+
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Cargar Archivo
+          </button>
+
+
+          <!--
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+            <form th:action="@{/documentacion/cargar}" enctype="multipart/form-data" method="POST">
+              <input type="hidden" name="documentacion_id" th:value="${documentacionActualizada.id}" required>
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="height: 500px">
+                  <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body d-flex align-items-center justify-content-center fs-4">
+                    Drop files here, paste or&nbsp;<label for="file" class="text-decoration-underline text-primary position-relative">
+                    Browse your file here
+                    <input id="file" required class="file-input form-control position-absolute bottom-0 top-0 left-0 right-0 opacity-0 overflow-hidden" accept=".pdf,.doc,.docx, .xls,.xlsx,.gif,.jpg,.jpeg,.png,.tiff,.bmp,.psd,.txt,.zip,.rar" type="file" th:name="file"/>
+                  </label>
+                  </div>
+                  <p class="mt-4 input__message text-center">
+                    No chosen file
+                  </p>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning">Subir</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>-->
+
+
+          <!--
+              <input class="file-input" accept=".pdf,.doc,.docx, .xls,.xlsx,.gif,.jpg,.jpeg,.png,.tiff,.bmp,.psd,.txt,.zip,.rar" type="file" th:name="file"/>
+          -->
+          <!--
+              <input type="submit" class="btn btn-warning" value="Subir Archivo" onclick="confirm('¿Seguro de subir este nuevo archivo?')">
+          -->
+          <!-- <span th:if="${adjuntoNuevo.extension == 'pdf'}">
+          <a title="Ver archivo adjunto" th:href="@{'/veradjunto/'+${adjuntoNuevo.nombre}}">
+             <td th:text="${adjuntoNuevo.nombre}" />
+           </a>
+         </span> -->
+       </div>
+       <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#modificarDocumentacionModal'">
+          Modificar Documentación
+        </button>
+        <!-- Modal -->
+        <div class="modal fade text-start" th:id="modificarDocumentacionModal" tabindex="-1" th:aria-labelledby="modificarDocumentacionModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar Documentación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ¿Estás seguro que deseás modificar los datos de esta documentación? <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <input class="btn btn-success" type="submit" value="Modificar">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <form th:action="@{/documentacion/cargar}" enctype="multipart/form-data" method="POST">
+          <input type="hidden" name="documentacion_id" th:value="${documentacionActualizada.id}" required>
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content py-4" style="height: 500px">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex align-items-center justify-content-center fs-4">
+                Drop files here, paste or&nbsp;<label for="file" class="text-decoration-underline text-primary position-relative">
+                Browse your file here
+                <input id="file" required class="file-input form-control position-absolute bottom-0 top-0 left-0 right-0 opacity-0 overflow-hidden" accept=".pdf,.doc,.docx, .xls,.xlsx,.gif,.jpg,.jpeg,.png,.tiff,.bmp,.psd,.txt,.zip,.rar" type="file" th:name="file"/>
+              </label>
+              </div>
+              <p class="mt-4 input__message text-center">
+                No chosen file
+              </p>
+              <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="submit" class="btn btn-warning ">Subir</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+</div>
+<div th:replace="common :: foot"></div>
+<script>
+  document.querySelector('.file-input').addEventListener('change', function(event) {
+    var fileName = event.target.files[0] ? event.target.files[0].name : null;
+    //console.log('Selected file:', fileName);
+    if(fileName==null) {
+      document.querySelector(".input__message").innerHTML = "No chosen file";
+      document.querySelector("#message-file").classList.remove("d-none");
+
+    }else {
+      document.querySelector(".input__message").innerHTML = fileName;
+      document.querySelector("#message-file").classList.add("d-none");
+
+    }
+  });
+</script>
+</body>
+</html>

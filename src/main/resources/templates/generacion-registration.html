@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+  <div th:replace="common :: head"></div>
+
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{|/lider/mostrar-generaciones|}">Mostrar Generaciones </a> > <span
+
+              th:text="${title}"></span>
+      </h4>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <form method="post" th:action="@{|/lider/nueva-generacion|}" th:object="${generacion}">
+        <div class="mb-3 col-md-6">
+
+          <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="numero">Número de generación</label>
+          <input class="form-control" id="numero" required type="number" th:field="*{numero}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="descripcion">Descripción</label>
+          <input class="form-control" id="descripcion" required type="text" th:field="*{descripcion}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaIngreso">Fecha de ingreso</label>
+          <input class="form-control" id="fechaIngreso" required type="date" th:field="*{fechaIngreso}"/>
+        </div>
+
+        <input class="btn btn-warning" type="submit" value="Guardar Generación">
+      </form>
+      <!-- Error -->
+      <div class="row mt-3" th:if="${error != null}">
+        <div class="col-md-12">
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <strong>Oops!</strong>
+            <div class="ms-2" th:text="${error}">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin Error -->
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

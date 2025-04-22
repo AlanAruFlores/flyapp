@@ -1,0 +1,36 @@
+.nav-icon {
+    font-size: 1.5em
+}
+
+.nav-btn {
+    color: #ffcc00;
+}
+
+.nav-btn:hover {
+    color: white;
+    background-color: #ffcc0099;
+}
+
+.nav-link:hover {
+    text-decoration-line: underline;
+}
+
+.link-danger {
+    background-color: #FFC107;
+    color: #000000 !important;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 20px;
+    transition: 500ms;
+}
+.link-danger:hover{
+    opacity: 0.7;
+}
+
+.link-danger:focus, .link-danger:hover {
+    color: #000000 !important;
+}
+
+.badge.rounded-pill.bg-danger {
+    z-index: 10;
+}

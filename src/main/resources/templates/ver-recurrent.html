@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+  <script th:src="@{/js/buscadorrecurrent.js}" async></script>
+  <link th:href="@{/css/buscador.css}" rel="stylesheet">
+  <title>Recurrent</title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+  <div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h2><i class="bi bi-book-half me-2 fly-color"></i>Detalle del Recurrent</h2>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+    <div class="row" style="margin-bottom: 30px">
+      <div class="col-md-1"></div>
+      <div class="col-md-10" style="display: flex; justify-content: space-between">
+        <a class="btn btn-warning" th:href="@{/lider/mostrar-recurrent}">
+          Volver
+        </a>
+    </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 30px">
+      <div class="col-md-1"></div>
+      <div class="col-md-10" style="display: flex; justify-content: start">
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i>Datos del recurrent</h4>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+    <!--Informacion de la persona-->
+    <div class="row mt-3">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Fecha desde</th>
+            <th scope="col">Fecha Hasta</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td th:text="${recurrent.numero}"></td>
+            <td th:text="${#temporals.format(recurrent.fechaDesde,'dd-MM-yyyy')}"></td>
+            <td th:text="${#temporals.format(recurrent.fechaHasta,'dd-MM-yyyy')}"></td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
+      <div id="asignar" class="col-md-1"></div>
+    </div>
+    <br>
+    <br>
+    <!-- error-->
+    <div id="danger-alert" class="row justify-content-center" th:if="${mensajeAusenciasDeUsuariosQueNoPuedenAgregarseAUnRecurrente != null}">
+      <div class="col-md-12">
+        <div class="alert alert-danger alert-dismissible fade show d-block" role="alert">
+          <button type="button" class="btn btn-close" data-dismiss="alert" aria-label="Close"></button>
+          <div class="ms-2" style="text-align: center;">
+            <p style="display: inline"><strong>Oops!</strong></p>
+            <p style="display: inline" th:text="${mensajeAusenciasDeUsuariosQueNoPuedenAgregarseAUnRecurrente}"></p>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-0 col-lg-1"></div>
+            <div class="col-md-12 col-lg-10">
+              <div class="table-responsive-lg">
+                <table class="table table-hover table-striped table-bordered text-nowrap align-middle text-center">
+                  <thead>
+                  <tr>
+                    <th scope="col" class="text-center">Legajo</th>
+                    <th scope="col" class="text-center">Nombre y Apellido</th>
+                    <th scope="col" class="text-center">Tipo Ausencia</th>
+                    <th scope="col" class="text-center">Desde
+                    <th scope="col" class="text-center">Hasta</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr th:each="t : ${AusenciasDeUsuariosQueNoPuedenAgregarseAUnRecurrente}" >
+                    <td class="text-center" th:text="${t.getUser().getLegajo()}"></td>
+                    <td class="text-center" th:text="${t.getUser().getNombre() + ' ' + t.getUser().getApellido()}"></td>
+                    <td class="text-center" th:text="${t.getTipoAusencia()}"></td>
+                    <td th:text="${#temporals.format(t.getFechaDesde(),'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(t.getFechaHasta(),'yyyy-MM-dd')}"></td>
+
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+            <div class="col-md-0 col-lg-1"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--fin error-->
+  <div class="row" style="margin-bottom: 30px">
+  <div class="col-md-1"></div>
+  <div class="col-md-10" style="display: flex; justify-content: space-between">
+  <a data-bs-toggle="modal" data-bs-target="#asignarTripulante" class="btn btn-warning"
+  th:href="@{|/lider/asignartripulantes/${recurrent.id}|}" title="Asignar tripulante">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+         class="bi bi-send" viewBox="0 0 16 16">
+      <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+    </svg>
+    Asignar Tripulantes
+  </a>
+</div>
+  <div class="col-md-1"></div>
+</div>
+
+    <!-- Modal Recurrent -->
+    <form id="myForm" th:action="@{|/lider/validarTripulantesAsignados|}" method="post" th:object="${datosTripulanteRecurrent}">
+      <input required type="hidden" th:id="${datosTripulanteRecurrent.idRecurrent}" th:name="${datosTripulanteRecurrent.idRecurrent}"
+             th:value="${datosTripulanteRecurrent.idRecurrent}" th:field="*{idRecurrent}"/>
+      <div class="modal fade" id="asignarTripulante" tabindex="-1"
+           aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" style="font-size: 18px"
+                  id="exampleModalLabel">Tripulantes</h2>
+              <button type="button" class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+
+            <div class="modal-header">
+              <input size="40" type="text" name="buscador" id="buscador" class="buscador" placeholder="Buscar tripulante..">
+            </div>
+
+            <div class="modal-body" >
+              <div class="not-found" style="display: none;">No se encontraron tripulantes</div>
+              <div class="tripulantes" th:each="t : ${listaDeTripulantes}" id="listaTripulantes" >
+                <label class="form-check-label"></label>
+                <input id="tripu"  type="checkbox" th:value="${t.id}" th:field="*{idsTripulantes}"
+                        th:text="${t.nombre} + ' ' + ${t.apellido}+ ' ' + '-' + ' ' +${t.sexo}
+                        + ' ' + '-' + ' ' +${t.tipoCargo}"
+                        style="cursor: pointer; margin-right: 5px;">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger"
+                      data-bs-dismiss="modal">Cancelar
+              </button>
+              <button href="#asignar" id="submitButton" type="submit" class="btn btn-success">Asignar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="container-fluid mt-2 mb-2">
+      <div class="row mt-3">
+
+        <div class="col-md-0 col-lg-1"></div>
+        <div class="col-auto me-auto">
+          <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i>Tripulantes asociados al Recurrent</h4>
+      </div>
+        <div class="col-md-0 col-lg-1"></div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-0 col-lg-1"></div>
+        <div class="col-md-12 col-lg-10">
+          <div class="table-responsive-lg">
+            <table class="table table-hover table-striped table-bordered text-nowrap align-middle text-center">
+              <thead>
+              <tr>
+                <th scope="col" class="text-center">ID</th>
+                <th scope="col" class="text-center">Nombre y Apellido</th>
+                <th scope="col" class="text-center">Sexo</th>
+                <th id="acciones" scope="col" class="text-center">Acciones</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:if="${listaDeTripulanteRecurrent.empty}">
+                <td colspan="6">No hay tripulantes asociados a éste recurrent</td>
+              </tr>
+              <tr th:each="t : ${listaDeTripulanteRecurrent}" th:if="${t.asignado == true}">
+                <td class="text-center" th:text="${t.tripulante.id}"></td>
+                <td class="text-center" th:text="${t.tripulante.nombre + ' ' + t.tripulante.apellido}"></td>
+                <td class="text-center" th:text="${t.tripulante.sexo}"></td>
+
+                <td>
+                  <a type="button" class="btn btn-warning mx-1 my-1 deleteBtn" th:href="@{'/lider/ver-recurrent/' + ${t.recurrent.id} + '/tripulante-delete/' + ${t.tripulante.id}}" title="Eliminar recurrent" onclick="return confirm('¿Desea eliminar éste tripulante del recurrent?');">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-trash" viewBox="0 0 16 16">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                      <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="col-md-0 col-lg-1"></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

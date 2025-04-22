@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar vuelos</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <!-- JS -->
+    <script th:src="@{/js/nav.js}" async></script>
+    <script th:src="@{/js/nav-profile.js}" async></script>
+    <!-- CSS-->
+    <link th:href="@{/css/nav.css}" rel="stylesheet">
+    <link th:href="@{/css/librovuelo.css}" rel="stylesheet">
+    <link th:href="@{/css/profile.css}" rel="stylesheet">
+    <link th:href="@{/css/abm.css}" rel="stylesheet">
+</head>
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div>
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                                      th:href="@{/vuelos}">vuelos</a>
+
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a class="btn btn-warning" th:href="@{/vuelos}">
+                    Volver
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i>Datos del vuelo</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form th:method="POST" th:action="@{'/vuelos/vuelos-registrar'}"
+                      th:object="${vuelo}">
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Origen</label>
+                            <select id="aeropuertoOrigen" class="form-control select-200px"
+                                    name="aeropuertoOrigen" th:field="*{aeropuertoOrigen}">
+                                <option th:each="aeropuerto : ${aeropuertos}" th:value="${aeropuerto.id}"
+                                        th:text="${aeropuerto.getCodigo()+ ' - ' + aeropuerto.getNombre()}"></option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Destino</label>
+                            <select id="aeropuertoDestino" class="form-control select-200px"
+                                    name="aeropuertoDestino" th:field="*{aeropuertoDestino}">
+                                <option th:each="aeropuerto : ${aeropuertos}" th:value="${aeropuerto.id}"
+                                        th:text="${aeropuerto.getCodigo() + '-' + aeropuerto.getNombre()}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Tiempo de Vuelo</label>
+                            <input required class="form-control" name="duracion" step=".05" type="number"
+                                   th:field="*{tv}"/>
+                        </div>
+                    </div>
+                    <!--esto raramente va a pasar-->
+                    <div class="row mt-3" th:if="${error != null}">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger d-flex align-items-center"
+                                 role="alert">
+                                <strong>Oops!</strong>
+                                <div class="ms-2" th:text="${error}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botones -->
+                    <div class="row mt-3 mb-3 text-end">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-warning me-2">
+                                Guardar
+                            </button>
+                            <a class="btn btn-secondary" th:href="@{/vuelos}">Cancelar</a>
+                        </div>
+                    </div>
+                    <!-- Fin Botones -->
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+<script src="/js/librovuelo.js"></script>
+</body>
+</html>

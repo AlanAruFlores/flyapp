@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+
+    <div class="container-fluid mt-2 mb-2">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                                      th:href="@{/tripulante/pedido-vacaciones}">
+                    Pedidos vacaciones >
+                </a><span th:text="${title}"></span>
+                </h2>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6" style="width: 100%;" th:if="${(pedidoVacaciones.cicloVacaciones != null)}">
+                        <h5 class="text-md-start">Ciclo</h5>
+                        <span th:text="${pedidoVacaciones.cicloVacaciones.numeroDeCiclo  + ' de ' + pedidoVacaciones.cicloVacaciones.comienzoCiclo + ' hasta ' + pedidoVacaciones.cicloVacaciones.finalizacionCiclo}"></span>
+                    </div>
+                </div>
+
+                <!-- Plan A Table -->
+                <div class="col align-items-start">
+                    <div class="col" style="width: 100%">
+                        <h5 class="text-md-start" style="padding-top: 50px">Plan A</h5>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th class="table-warning">Quincena</th>
+                                <th class="table-warning">Desde</th>
+                                <th class="table-warning">Hasta</th>
+                            </tr>
+                            <tr>
+                                <td>Primera Quincena</td>
+                                <td><span th:text="${pedidoVacaciones.fechaDesdePrimeraQuincenaPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                                <td><span th:text="${pedidoVacaciones.fechaHastaPrimeraQuincenaPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Segunda Quincena</td>
+                                <td><span th:text="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                                <td><span th:text="${pedidoVacaciones.fechaHastaSegundaQuincenaPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Días opuestos (10)</td>
+                                <td><span th:text="${pedidoVacaciones.fechaDesdeDiasOpuestosPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                                <td><span th:text="${pedidoVacaciones.fechaHastaDiasOpuestosPlanA}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Plan B Table -->
+                <div class="col" style="width: 100%">
+                    <h5 class="text-md-start" style="padding-top: 50px">Plan B</h5>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th class="table-warning">Quincena</th>
+                            <th class="table-warning">Desde</th>
+                            <th class="table-warning">Hasta</th>
+                        </tr>
+                        <tr>
+                            <td>Primera Quincena</td>
+                            <td><span th:text="${pedidoVacaciones.fechaDesdePrimeraQuincenaPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            <td><span th:text="${pedidoVacaciones.fechaHastaPrimeraQuincenaPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Segunda Quincena</td>
+                            <td><span th:text="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            <td><span th:text="${pedidoVacaciones.fechaHastaSegundaQuincenaPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Días opuestos (10)</td>
+                            <td><span th:text="${pedidoVacaciones.fechaDesdeDiasOpuestosPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                            <td><span th:text="${pedidoVacaciones.fechaHastaDiasOpuestosPlanB}" th:if="${title == 'Ver mi pedido'}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col" style="width: 100%; margin-top: 50px" th:if="${title == 'Ver mi pedido'}">
+                    <div class="col-md-6" style="width: 100%">
+                        <span>Comentarios del Usuario</span>
+                        <textarea id="comentariosDelUsuario" th:text="${pedidoVacaciones.comentarioDelUsuario}" style="width: 100%" readonly></textarea>
+                    </div>
+                    <div class="col-md-6" style="width: 100%; padding-top: 30px">
+                        <span>Comentarios del Lider</span>
+                        <textarea id="comentariosDelLider" th:text="${pedidoVacaciones.comentarioDelLider}" style="width: 100%" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

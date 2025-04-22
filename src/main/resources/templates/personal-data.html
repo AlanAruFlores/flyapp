@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/css/roundedDivImage.css}" rel="stylesheet">
+
+
+</head>
+
+<style>
+    @media (min-width: 768px) {
+        .col-md-10 {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+    }
+
+    .alert-success{ display: flex; }
+
+</style>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mt-3" style="margin: 0 50px;">
+
+        <form method="POST" th:object="${userForm}" th:action="@{|/tripulante/perfil/datos-personales|}">
+            <div class="row">
+                <div th:replace="common :: nav-profile"></div>
+
+                <div class="row mt-3" th:if="${error != null}">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger d-flex align-items-center"
+                             role="alert">
+                            <strong>Oops!</strong>
+                            <div class="ms-2" th:text="${error}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+                <input class="form-control" id="enabled" required type="hidden" th:field="*{enabled}"/>
+                <input class="form-control" id="tvTotalInicial" required type="hidden" th:field="*{tvTotalInicial}"/>
+                <input class="form-control" id="datosContacto" required type="hidden" th:field="*{datosContacto.id}"/>
+                <input class="form-control" id="direccion" required type="hidden" th:field="*{direccion.id}"/>
+                <input class="form-control" id="dni" required type="hidden" th:field="*{dni}"/>
+
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="nombre">Nombre/s</label>
+                    <input tabindex="1" th:field="*{nombre}" type="text" class="form-control m-0" id="nombre" placeholder="Nombre/s"
+                           autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="horasDiurnas">Cantidad de horas diurnas</label>
+                    <input tabindex="10" th:field="*{tvDiurnoInicial}" type="number" class="form-control m-0" id="horasDiurnas"
+                           placeholder="Cantidad de horas diurnas">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="apellido">Apellido/s</label>
+                    <input tabindex="2" th:field="*{apellido}" type="text" class="form-control m-0" id="apellido"
+                           placeholder="Apellido/s" autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="horasNocturnas">Cantidad de horas nocturas</label>
+                    <input tabindex="11" th:field="*{tvNocturnoInicial}" type="number" class="form-control m-0" id="horasNocturnas"
+                           placeholder="Cantidad de horas nocturnas">
+                </div>
+
+                <div th:hidden="${title == 'Datos Personales'}" class="mb-3 col-sm-12 col-md-6">
+                    <label for="username">Usuario</label>
+                    <input th:field="*{username}"
+                           type="hidden"
+                           class="form-control m-0" id="username"
+                           placeholder="Usuario"
+                           autofocus="true">
+                    <span class="has-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="mail">Mail</label>
+                    <input tabindex="5" th:field="*{mail}" type="email" class="form-control m-0" id="mail"
+                           placeholder="email@example.com"
+                           autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="cantidadDeAterrizajes">Cantidad de aterrizajes</label>
+                    <input tabindex="12" th:field="*{cantidadAterrizajeInical}" type="number" class="form-control m-0"
+                           id="cantidadDeAterrizajes"
+                           placeholder="Cantidad de Aterrizajes">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                    <input tabindex="3" th:field="*{fechaNacimiento}" type="date" class="form-control m-0" id="fechaNacimiento"
+                           placeholder="Fecha de nacimiento" autofocus="true">
+                </div>
+
+                <div th:hidden="${title == 'Datos Personales'}" class="mb-3 col-sm-12 col-md-6">
+                    <label for="password">Contraseña</label>
+                    <input th:field="*{password}"
+                           type="hidden"
+                           class="form-control m-0" id="password"
+                           placeholder="Contraseña">
+                    <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+
+                <div th:hidden="${title == 'Datos Personales'}" class="mb-3 col-sm-12 col-md-6">
+                    <label for="passwordConfirm">Confirmá la contraseña</label>
+                    <input th:field="*{passwordConfirm}"
+                           type="hidden"
+                           class="form-control m-0" id="passwordConfirm"
+                           placeholder="Confirmá la contraseña">
+                    <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}"
+                          th:errors="*{passwordConfirm}"></span>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="provincia">Provincia</label>
+                    <select tabindex="17" id="provincia" class="form-select" aria-label="provincias" th:field="*{direccion.localidad.provincia}">
+                        <option th:value="0">Selecciona tu provincia</option>
+                        <option th:each="provincia : ${provincias}"
+                                th:value="${provincia.id}"
+                                th:text="${provincia.nombre}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="fechaIngreso">Fecha de ingreso</label>
+                    <input tabindex="4" th:field="*{fechaIngreso}" type="date" class="form-control m-0" id="fechaIngreso"
+                           placeholder="Fecha de ingreso" autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="localidad">Localidad</label>
+                    <select tabindex="16" id="localidad" class="form-select" aria-label="localidad" th:field="*{direccion.localidad}">
+                        <option th:value="0">Selecciona tu localidad</option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="telefono">Teléfono</label>
+                    <input tabindex="6" th:field="*{telefono}" type="number" class="form-control m-0" id="telefono"
+                           placeholder="Teléfono"
+                           autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="cp">Codigo Postal</label>
+                    <input tabindex="14" th:field="*{direccion.localidad.codigopostal}" type="number" class="form-control m-0" id="cp" placeholder="codigo postal">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="legajo">Legajo</label>
+                    <input tabindex="7" th:field="*{legajo}" type="number" class="form-control m-0" id="legajo"
+                           placeholder="N° de legajo"
+                           autofocus="true">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="calle">Calle</label>
+                    <input tabindex="13" th:field="*{direccion.calle}" type="text" class="form-control m-0" id="calle" placeholder="Calle">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" class="form-control" id="cargo" th:value="${cargo}" readonly>
+                    <input type="hidden" th:value="${cargo}" th:field="*{tipoCargo}">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="numeroDeCalle">Número de Calle</label>
+                    <input tabindex="14" th:field="*{direccion.numeroDeCalle}" type="number" class="form-control m-0" id="numeroDeCalle" placeholder="Número de Calle">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="generacion">N° Generación</label>
+                    <input type="text" class="form-control" id="generacion" th:value="${generacion.numero}" readonly>
+                    <input type="hidden" th:value="${generacion.id}" th:field="*{generacion}">
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="lider">Líder</label>
+                    <input type="text" class="form-control" id="lider" th:value="${lider.apellido + ' ' + lider.nombre}" readonly>
+                    <input type="hidden" th:value="${lider.id}" th:field="*{lider}">
+                </div>
+
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                    <label for="sexo">Seleccioná tu sexo</label>
+                    <select tabindex="8" id="sexo" class="form-select" aria-label="sexo" th:field="*{sexo}" required>
+
+                        <option th:value="0"  th:if="*{sexo} == null " >Selecciona tu sexo</option>
+                        <option th:value="Masculino">Masculino</option>
+                        <option th:value="Femenino">Femenino</option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+
+                    <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="roles"> rol</label>
+                    <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" class="form-control selectpicker" multiple tabindex="15" id="roles" th:field="*{roles}">
+                        <option th:value=0>Selecciona tu rol</option>
+                        <option th:each="r : ${roles}"
+                                th:value="${r.id}"
+                                th:text="${r.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-sm-12 col-md-6">
+                <div class="row mt-3" th:if="${confirmado != null}">
+                    <div>
+                        <div class="alert alert-success" role="alert">
+                            <strong>Listo!</strong>
+                            <div class="ms-2" th:text="${confirmado}"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="mb-3 col-sm-12 col-md-6"></div>
+                <div style="width:300px; margin:auto">
+                    <button tabindex="18" type="submit" class="w-100 btn btn-lg btn-warning">Modificar</button>
+                </div>
+                <h4 class="text-center mt-2" style="font-size: medium"><a
+                        class="text-decoration-none text-warning"
+                        tabindex="19" th:href="@{|/home|}">Cancelar
+                </a></h4>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{|/js/ajaxDireccion.js|}"></script>
+<div th:replace="common :: foot"></div>
+<script src="https://cdn.jsdelivr.net/npm/select-picker@0.3.2/dist/picker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select-picker@0.3.2/dist/picker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+</body>
+
+</html>

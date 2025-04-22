@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Chat</title>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+ <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i>Mis chats</h2>
+                <main class="content">
+                    <div class="container p-0">
+                        <div class="card"style="height: 600px">
+                            <div class="row g-0" style="height: inherit">
+                                <div class="col-12 col-lg-5 col-xl-3 border-right" style="position:relative; height: inherit;">
+                                    <div class="py-2 px-4 border-bottom d-none d-lg-block"  style="margin: 15px" >
+                                        <div class="d-flex align-items-center py-1">
+                                            <div class="position-relative">
+                                            </div>
+                                            <div class="flex-grow-1 pl-3" >
+                                                <strong ><span> Recientes </span></strong>
+                                                <div class="text-muted small"><em><span></span></em></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="column-gap: 30px;" th:if="${chats.isEmpty()}">
+                                        <span>No hay chats activos.</span></li>
+                                        <hr/>
+                                    </div>
+                                    <div class="px-2 d-none d-md-block">
+                                        <a  th:href="@{|/chat/${chats.id}|}"class="list-group-item list-group-item-action border-0" th:each="chats:${chats}">
+                                            <div class="d-flex align-items-start" th:switch="${chats.remitente.id}">
+                                                <img src="https://i.pravatar.cc/300"
+
+                                                     class="rounded-circle mr-1" width="40" height="40">
+                                                <div class="flex-grow-1 ml-3" th:if="${chats.remitente.id == usuario.id}">
+                                                    <span th:text="${chats.destinatario.username}"></span>
+                                                    <div class="small"><span class="fas fa-circle chat-offline"></span> Offline</div>
+                                                </div>
+
+                                                <div class="flex-grow-1 ml-3" th:if="${chats.remitente.id != usuario.id}">
+                                                    <span th:text="${chats.remitente.username}"></span>
+                                                    <div class="small"><span class="fas fa-circle chat-offline"></span> Offline</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                   <!-- <hr class="d-block d-lg-none mt-1 mb-0">-->
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 100%;position: absolute;bottom: 0;">
+                                        nuevo destinatario
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </button>
+                                    <!-- Button trigger modal -->
+                                </div>
+                                <div class="col-12 col-lg-7 col-xl-9" style="border-left: 1px solid ;height: inherit; position: relative">
+                                    <div class="py-2 px-4 border-bottom d-none d-lg-block"th:if="${chatActual}">
+                                        <div class="d-flex align-items-center py-1">
+                                            <div class="position-relative">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                            </div>
+                                            <div class="flex-grow-1 pl-3" th:if="${destinatario}">
+                                                <strong th:if="${destinatario.id == usuario.id}"><span th:text="${remitente.username}" th:if="${remitente.username}"></span></strong>
+                                                <strong th:if="${destinatario.id != usuario.id}"><span th:text="${destinatario.username}" th:if="${destinatario.username}"></span></strong>
+                                                <div class="text-muted small"><em><span></span></em></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex" style="flex-direction: column;height: 470px"  th:if="${chatActual}">
+                                        <div th:if="${mensajes.isEmpty()}">No tiene mensajes con esta persona</div>
+                                        <div class="d-flex flex-column chatContent" id="containerChat" style="overflow: auto" >
+                                            <div style="width: 100%" th:each="mensajes:${mensajes}">
+                                                <div class="col">
+                                                    <div th:switch="${chatActual.remitente.id}">
+                                                        <div th:case="${usuario.id}">
+                                                            <div th:switch="${mensajes.usuario.id}" >
+<!--
+                                                                Mensajes del destinatario
+-->
+                                                                <div th:case="${destinatario.id}" class="mensajes_container">
+                                                                    <div class="chat-message-right p-4 destinatario__messages" style="display: flex; ">
+                                                                        <div>
+                                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                                                            <div class="text-muted small text-nowrap mt-2">
+                                                                                <span class="small text-start fw-lighter"th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                                            <div class="font-weight-bold mb-1">
+                                                                                <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span>
+                                                                            </div>
+                                                                            <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p th:case="*"></p>
+                                                                </div>
+<!--
+                                                                Mensajes del remitente
+-->
+                                                                <div th:case="${remitente.id}" class="mensajes_container remitente__messages">
+                                                                    <div class="chat-message-right p-4" style="display: flex;flex-direction: row-reverse">
+                                                                        <div>
+                                                                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                                                            <div class="text-muted small text-nowrap mt-2">
+                                                                                <span class="small text-start fw-lighter" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                                            <div class="font-weight-bold mb-1">
+                                                                                <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span>
+                                                                            </div>
+                                                                            <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p th:case="*"></p>
+                                                                </div>
+                                                            </div>
+                                                            <div th:case="*">
+                                                                <div th:switch="${mensajes.usuario.id}">
+                                                                    <!--
+                                                                                                                        &lt;!&ndash;Mensajes del destinatario&ndash;&gt;
+                                                                    -->
+                                                                    <div th:case="${destinatario.id}">
+                                                                        <div class="text-start destinatario__text__messages">
+                                                                            <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span><br>
+                                                                            <div class="p-2 ms-3 me-3 mb-1 rounded-3 bg-primary">
+                                                                                <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span><br>
+                                                                                <span class="small text-start fw-lighter" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--&lt;!&ndash;Mensajes del remitente&ndash;&gt;-->
+                                                                    <div th:case="${remitente.id}">
+                                                                        <div class="text-end remitente__text__messages">
+                                                                            <span class="text-end fw-bold" th:text="${mensajes.usuario.username}"></span><br>
+                                                                            <div class="p-2 ms-3 me-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+                                                                                <span class="medium text-end fw-medium" style="color: black;" th:text="${mensajes.mensaje}"></span><br>
+                                                                                <span class="small text-end fw-lighter" style="color: black;" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p th:case="*"></p>
+                                                                    </div></div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div th:case="*">
+                                                            <div th:switch="${mensajes.usuario.id}">
+                                                                <div th:case="${remitente.id}">
+                                                                    <div class="chat-message-right p-4 remitente__messages" style="display: flex;">
+                                                                        <div>
+                                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                                                            <div class="text-muted small text-nowrap mt-2">
+                                                                                <span class="small text-start fw-lighter"th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                                            <div class="font-weight-bold mb-1">
+                                                                                <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span>
+                                                                            </div>
+                                                                            <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p th:case="*"></p>
+                                                                </div>
+                                                                <!--
+                                                                                                                                Mensajes del destinatario
+                                                                -->
+                                                                <div th:case="${destinatario.id}">
+                                                                    <div class="chat-message-right p-4 destinatario__messages" style="display: flex;flex-direction: row-reverse">
+                                                                        <div>
+                                                                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                                                            <div class="text-muted small text-nowrap mt-2">
+                                                                                <span class="small text-start fw-lighter" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                                            <div class="font-weight-bold mb-1">
+                                                                                <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span>
+                                                                            </div>
+                                                                            <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p th:case="*"></p>
+                                                                </div>
+                                                            </div>
+                                                            <div th:case="*">
+                                                                <div th:switch="${mensajes.usuario.id}">
+                                                                    <!--
+                                                                                                                        &lt;!&ndash;Mensajes del remitente&ndash;&gt;
+                                                                    -->
+                                                                    <div th:case="${remitente.id}">
+                                                                        <div class="text-start remitente__text__messages">
+                                                                            <span class="text-start fw-bold" th:text="${mensajes.usuario.username}"></span><br>
+                                                                            <div class="p-2 ms-3 me-3 mb-1 rounded-3 bg-primary">
+                                                                                <span class="medium text-start fw-medium" th:text="${mensajes.mensaje}"></span><br>
+                                                                                <span class="small text-start fw-lighter" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--&lt;!&ndash;Mensajes del remitente&ndash;&gt;-->
+                                                                    <div th:case="${destinatario.id}">
+                                                                        <div class="text-end destinatario__text__messages">
+                                                                            <span class="text-end fw-bold" th:text="${mensajes.usuario.username}"></span><br>
+                                                                            <div class="p-2 ms-3 me-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
+                                                                                <span class="medium text-end fw-medium" style="color: black;" th:text="${mensajes.mensaje}"></span><br>
+                                                                                <span class="small text-end fw-lighter" style="color: black;" th:text="${#temporals.format(mensajes.fechaEnvio, 'dd/MM hh:mm')}"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p th:case="*"></p>
+                                                                    </div></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="col-md-1"></div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="py-2 px-4 border-bottom d-none d-lg-block" style="position:absolute;bottom: 0px;width: 100%" th:if="${chatActual}">
+                                        <div class="input-group">
+
+                                            <!--<form method="POST" th:object="${mensajeNuevo}" th:action="@{|/chat|}" class="d-flex" style="width: 100%">-->
+                                            <form th:object="${mensajeNuevo}" class="d-flex" style="width: 100%">
+                                            <div>
+                                                    <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+                                                </div>
+                                                <div>
+                                                    <input class="form-control" th:id="chat"  th:name="chat" required type="hidden" th:value="${chatActual.id}"/>
+                                                </div>
+                                                <input  th:field="*{mensaje}" type="text" class="form-control" id="mensaje"
+                                                        placeholder="mensaje" autofocus="true" required >
+                                                <input class="btn btn-warning" value="Enviar" id="enviarMensajeBoton">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+     <!-- Modal -->
+     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+               <!--      <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>-->
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+
+                     <div class="col mx-auto">
+                         <form enctype="multipart/form-data" method="post" th:action="@{|/chats|}" th:object="${chatNuevo}">
+                             <div>
+                                 <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+                             </div>
+                             <div>
+                                 <div class="d-flex justify-content-center mb-4">
+                                     <select tabindex="15" id="destinatario" class="form-select" style="width:90%;" aria-label="destinatario" th:field="*{destinatario}" required>
+                                         <option th:value="0">Destinatario</option>
+                                         <option th:each="user : ${usuarios}"
+                                                 th:value="${user.id}"
+                                                 th:text="${user.username}">
+                                         </option>
+                                     </select>
+                                     <input class="btn btn-warning" type="submit" value="Nuevo chat">
+                                 </div>
+                             </div>
+                         </form>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+ </div>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.2/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/dist/stomp.min.js"></script>
+<script th:src="@{/js/webSocketChat.js}" th:usuario-id="${usuario != null ? usuario.id : ''}" th:chat-id="${chatActual != null ? chatActual.id : ''}"
+th:contextPath = "@{/}"></script>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <div th:replace="common :: head"></div>
+
+      <!-- Custom styles for this template -->
+      <link th:href="@{/css/login-registration.css}" rel="stylesheet">
+  </head>
+
+  <body class="text-center d-grid py-1">
+  <main class="form-signin border-0 p-4 shadow-sm">
+      <form method="POST" th:action="@{|/login|}">
+          <img class="mb-4" th:src="@{/img/isotipo.png}" alt="Fly Bondi Isotipo" width="72">
+          <h1 class="h3 mb-3 fw-normal">Ingreso al sistema</h1>
+
+          <div class="form-floating">
+              <input name="username" type="text" class="form-control m-0" id="floatingInput" placeholder="Usuario" autofocus="true">
+              <label for="floatingInput">Usuario</label>
+          </div>
+          <div class="form-floating mt-2">
+              <input name="password" type="password" class="form-control m-0" id="floatingPassword" placeholder="Contraseña">
+              <label for="floatingPassword">Contraseña</label>
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+          </div>
+
+          <div class="checkbox mt-2 mb-3 text-start d-flex align-items-center gap-2">
+              <label for="remember-me">Recordarme</label>
+              <input type="checkbox" id="remember-me" name="remember-me">
+          </div>
+          <button class="w-100 btn btn-lg btn-warning" type="submit">Log In</button>
+          <h4 class="text-center mt-2"><a class="text-decoration-none text-warning" th:href="@{|/registration|}">Crear una cuenta</a></h4>
+          <h6 class="text-center mt-2"><a class="text-decoration-none text-warning" th:href="@{/forgot_password}">¿Olvidaste tu contraseña?</a></h6>
+          <span th:text="${error}"></span>
+          <span th:text="${message}"></span>
+          <div class="mb-3">
+              <div class="row mt-3" th:if="${confirmado != null}">
+                  <div>
+                      <div class="alert alert-success" role="alert">
+                          <strong>Listo!</strong>
+                          <div class="ms-2" th:text="${confirmado}"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </main>
+    <div th:replace="common :: foot"></div>
+  </body>
+</html>

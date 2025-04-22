@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+
+    <div class="container-fluid mt-2 mb-2">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                                      th:href="@{/tripulante/pedido-vacaciones}">
+                                                                      Pedidos vacaciones >
+                </a><span th:text="${title}"></span>
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a class="btn btn-warning" th:href="@{/tripulante/pedido-vacaciones}">
+                    Volver
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form method="get" th:action="@{|/tripulante/pedido-vacaciones/registrar-pedido|}" th:object="${pedidoVacaciones}">
+                    <select id="ciclo" name="ciclo" class="form-select" aria-label="ciclo">
+                        <option th:each="ciclos : ${ciclosVacaciones}"
+                                th:value="${ciclos.id}"
+                                th:text="${ciclos.numeroDeCiclo  + ' de ' + ciclos.comienzoCiclo + ' hasta ' + ciclos.finalizacionCiclo } "
+                                th:selected="${ciclos.id == cicloElegidoId}">
+                        </option>
+                    </select>
+                    <button type="submit" class="btn btn-warning mt-2">Seleccionar</button>
+                </form>
+
+                <form th:if="${habilitarFormulario == true}" method="post" th:action="@{/tripulante/nuevo-pedido/vacaciones}" th:object="${pedidoVacaciones}">
+
+                    <input type="hidden" th:field="*{cicloVacaciones}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdePrimeraQuincenaPlanA}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdeSegundaQuincenaPlanA}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdeDiasOpuestosPlanA}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdePrimeraQuincenaPlanB}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdeSegundaQuincenaPlanB}">
+                    <input type="hidden" th:field="*{seAprobofechaDesdeDiasOpuestosPlanB}">
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6" style="width: 100%;"
+                             th:if="${(pedidoVacaciones.cicloVacaciones != null) && (title == 'Editar mi pedido' || title == 'Registrar mi pedido')}">
+
+                            <span th:text="${pedidoVacaciones.cicloVacaciones.numeroDeCiclo  + ' de ' + pedidoVacaciones.cicloVacaciones.comienzoCiclo + ' hasta ' + pedidoVacaciones.cicloVacaciones.finalizacionCiclo}"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col align-items-start">
+                        <div class="col" style="width: 100%">
+                            <h5 class="text-md-start" style="padding-top: 50px">Plan A</h5>
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Primera Quincena</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="primeraQuincenaDesdePlanA" class="form-label">Desde</label>
+                                    <input id="primeraQuincenaDesdePlanA" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.seAprobofechaDesdePrimeraQuincenaPlanA == true}"
+                                           th:field="*{fechaDesdePrimeraQuincenaPlanA}"
+                                           th:value="${pedidoVacaciones.fechaDesdePrimeraQuincenaPlanA}"/>
+
+                                    </div>
+                                   <div class="mt-3" th:if="${pedidoVacaciones.seAprobofechaDesdePrimeraQuincenaPlanA == true}">
+                                            <div>
+                                                <div class="alert alert-success" role="alert">
+                                                    <div class="ms-2">
+                                                        <p th:text="${'Felicitaciones! La primer quincena de plan A de tus vacaciones fueron aprobadas'}"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </div>
+
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Segunda Quincena</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="diasOpuestosDesdePlanA" class="form-label">Desde</label>
+                                    <input id="diasOpuestosDesdePlanA" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanA == true}"
+                                           th:field="*{fechaDesdeSegundaQuincenaPlanA}"
+                                           th:value="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanA}"/>
+                                </div>
+                                <div class="mt-3" th:if="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanA == true}">
+                                    <div>
+                                        <div class="alert alert-success" role="alert">
+                                            <div class="ms-2">
+                                                <p th:text="${'Felicitaciones! La segunda quincena de plan A de tus vacaciones fueron aprobadas'}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Dias opuestos (10)</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="segundaQuincenaDesdePlanA" class="form-label">Desde</label>
+                                    <input id="segundaQuincenaDesdePlanA" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.seAprobofechaDesdeDiasOpuestosPlanA == true}"
+                                           th:field="*{fechaDesdeDiasOpuestosPlanA}"
+                                           th:value="${pedidoVacaciones.fechaDesdeDiasOpuestosPlanA}"/>
+                                </div>
+                                <div class="mt-3" th:if="${pedidoVacaciones.seAprobofechaDesdeDiasOpuestosPlanA == true}">
+                                    <div>
+                                        <div class="alert alert-success" role="alert">
+                                            <div class="ms-2">
+                                                <p th:text="${'Felicitaciones! Los dias opuestos de plan A de tus vacaciones fueron aprobados'}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col" style="width: 100%">
+                            <h5 class="text-md-start" style="padding-top: 50px">Plan B</h5>
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Primera Quincena</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="primeraQuincenaDesdePlanB" class="form-label">Desde</label>
+                                    <input id="primeraQuincenaDesdePlanB" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.seAprobofechaDesdePrimeraQuincenaPlanB == true}"
+                                           th:field="*{fechaDesdePrimeraQuincenaPlanB}"
+                                           th:value="${pedidoVacaciones.fechaDesdePrimeraQuincenaPlanB}"/>
+                                </div>
+                                <div class="mt-3" th:if="${pedidoVacaciones.seAprobofechaDesdePrimeraQuincenaPlanB == true}">
+                                    <div>
+                                        <div class="alert alert-success" role="alert">
+                                            <div class="ms-2">
+                                                <p th:text="${'Felicitaciones! La primer quincena de plan B de tus vacaciones fueron aprobados'}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Segunda Quincena</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="diasOpuestosDesdePlanB" class="form-label">Desde</label>
+                                    <input id="diasOpuestosDesdePlanB" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.seAprobofechaDesdeSegundaQuincenaPlanB == true}"
+                                           th:field="*{fechaDesdeSegundaQuincenaPlanB}"
+                                           th:value="${pedidoVacaciones.fechaDesdeSegundaQuincenaPlanB}"/>
+                                </div>
+                                <div class="mt-3" th:if="${pedidoVacaciones.seAprobofechaDesdeSegundaQuincenaPlanB == true}">
+                                    <div>
+                                        <div class="alert alert-success" role="alert">
+                                            <div class="ms-2">
+                                                <p th:text="${'Felicitaciones! La segunda quincena de plan B de tus vacaciones fueron aprobados'}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+
+                                <h6 class="text-md-start">Dias opuestos (10)</h6>
+
+                                <!-- if viene EDITAR / REGISTRAR MI PEDIDO-->
+                                <div class="col-md-6" style="width: 100%;"
+                                     th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                                    <label for="segundaQuincenaDesdePlanB" class="form-label">Desde</label>
+                                    <input id="segundaQuincenaDesdePlanB" class="form-control" required type="date"
+                                           th:readonly="${pedidoVacaciones.seAprobofechaDesdeDiasOpuestosPlanB == true}"
+                                           th:field="*{fechaDesdeDiasOpuestosPlanB}"
+                                           th:value="${pedidoVacaciones.fechaDesdeDiasOpuestosPlanB}"/>
+                                </div>
+                                <div class="mt-3" th:if="${pedidoVacaciones.seAprobofechaDesdeDiasOpuestosPlanB == true}">
+                                    <div>
+                                        <div class="alert alert-success" role="alert">
+                                            <div class="ms-2">
+                                                <p th:text="${'Felicitaciones! Los diaa opuestos de plan B de tus vacaciones fueron aprobados'}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- editar / registrar pedido comentarios -->
+                        <div class="col" style="width: 100%; margin-top: 50px"
+                             th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                            <div class="col-md-6" style="width: 100%">
+                                <span>Comentarios del Usuario</span>
+                                <textarea id="comentariosDelUsuarioEdit" th:field="*{comentarioDelUsuario}"
+                                          th:value="${pedidoVacaciones.comentarioDelUsuario}"
+                                          style="width: 100%"
+                                          th:readonly="${pedidoVacaciones.user.id != user.id}"></textarea>
+                            </div>
+
+                            <div class="col-md-6" style="width: 100%; padding-top: 30px">
+                                <span>Comentarios del Lider</span>
+                                <textarea id="comentariosDelLiderEdit" th:field="*{comentarioDelLider}"
+                                          th:value="${pedidoVacaciones.comentarioDelLider}"
+                                          style="width: 100%" th:disabled="${pedidoVacaciones.user.id == user.id}"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Botones -->
+                    <div class="row mt-3 mb-3 text-end"
+                         th:if="${title == 'Editar mi pedido' || title == 'Registrar mi pedido'}">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-warning me-2">
+                                Guardar
+                            </button>
+                            <a class="btn btn-secondary" th:href="@{/tripulante/pedido-vacaciones}">Cancelar</a>
+                        </div>
+                    </div>
+                    <!-- Fin Botones -->
+                </form>
+                <br>
+                <div th:replace="common :: resumenvacaciones"></div>
+                <br>
+                <!-- Error -->
+                <div class="row mt-3" th:if="${error != null}">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <strong>Oops!</strong>
+                            <div class="ms-2" th:text="${error}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin Error -->
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

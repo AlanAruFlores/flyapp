@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+
+    <div class="container-fluid mt-2 mb-2">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{'/tripulante/librovuelo'}">Libro de vuelo</a> > <span
+                        th:text="${title}"></span>
+                </h2>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del vuelo</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form method="post" th:action="@{|/tripulante/librovuelo/registrar|}" th:object="${vueloRealizado}">
+
+                    <input type="hidden" th:field="*{id}"/>
+                    <input type="hidden" th:field="*{user}"/>
+
+
+                    <!-- Origen -->
+                    <div class="row mt-3">
+
+                        <div class="col-md-6">
+                            <label for="fechahoraDespegue" class="form-label">Fecha y hora de despegue</label>
+                            <input id="fechahoraDespegue" class="form-control" placeholder="Fecha y hora de despegue" required type="datetime-local" th:field="*{fechahoraDespegue}"/>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="aeropuertoOrigen" class="form-label">Aeropuerto de origen</label>
+                            <select id="aeropuertoOrigen" class="form-select" aria-label="Aeropuerto de origen" th:field="*{aeropuertoOrigen}">
+                                <option th:each="aeropuerto : ${aeropuertos}"
+                                        th:value="${aeropuerto.id}"
+                                        th:text="${aeropuerto.codigo + ' - ' + aeropuerto.nombre + ' - ' + aeropuerto.provincia}">
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <!--Fin Origen -->
+
+                    <!-- Destino -->
+                    <div class="row mt-3">
+
+                        <div class="col-md-6">
+                            <!--th:value="${#temporals.format(vueloRealizado.fechahoraAterrizaje,'dd/MM/yyyy HH:mm')}"-->
+                            <label for="fechahoraAterrizaje" class="form-label">Fecha y hora de aterrizaje</label>
+                            <input id="fechahoraAterrizaje" class="form-control" placeholder="Fecha y hora de aterrizaje" required type="datetime-local" th:field="*{fechahoraAterrizaje}" />
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="aeropuertoDestino" class="form-label">Aeropuerto de destino</label>
+                            <select id="aeropuertoDestino" class="form-select" aria-label="Aeropuerto de destino" th:field="*{aeropuertoDestino}">
+                                <option th:each="aeropuerto : ${aeropuertos}"
+                                        th:value="${aeropuerto.id}"
+                                        th:text="${aeropuerto.codigo + ' - ' + aeropuerto.nombre + ' - ' + aeropuerto.provincia}">
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <!--Fin Destino -->
+
+                    <!-- Folio RVA | Matricula Aeronave-->
+                    <div class="row mt-3">
+
+                        <div class="col-md-6">
+                            <label for="folioRVA" class="form-label">Folio RVA</label>
+                            <input id="folioRVA" class="form-control" placeholder="Folio RVA" required type="text" th:field="*{folioRVA}"/>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="avion" class="form-label">Matrícula de la Aeronave</label>
+                            <select id="avion" class="form-select" aria-label="Matrícula de la Aeronave" th:field="*{avion}">
+                                <option th:each="avion : ${aviones}"
+                                        th:value="${avion.id}"
+                                        th:text="${avion.matricula + ' - ' + avion.marca}">
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <!--Fin Folio RVA | Matricula Aeronave -->
+
+                    <!-- Finalidad -->
+                    <div class="row mt-3">
+
+                        <div class="col-md-12">
+                            <label for="finalidadDelVuelo" class="form-label">Finalidad del vuelo</label>
+                            <input id="finalidadDelVuelo" class="form-control" placeholder="Finalidad del vuelo" required type="text" th:field="*{finalidadDelVuelo}"/>
+                        </div>
+
+                    </div>
+                    <!--Fin Finalidad -->
+
+                    <!-- INSTRUCTOR DE TCP -->
+                    <div class="row mt-3">
+
+                        <div class="col-md-12">
+                            <label for="instructorTcp" class="form-label">Instructor TCP</label>
+                            <input id="instructorTcp" class="form-control" placeholder="Instructor TCP" type="text" th:field="*{instructorTcp}"/>
+                        </div>
+
+                    </div>
+                    <!-- Fin INSTRUCTOR DE TCP -->
+
+                    <!-- TIPO DE AERONAVE -->
+                    <div class="row mt-3">
+
+                        <div class="col-md-12">
+                            <label for="tipoAeronave" class="form-label">Tipo de Aeronave</label>
+                            <input id="tipoAeronave" class="form-control" placeholder="Tipo de Aeronave" type="text" th:field="*{tipoAeronave}"/>
+                        </div>
+
+                    </div>
+                    <!--Fin TIPO DE AERONAVE -->
+
+                    <!-- Error -->
+                    <div class="row mt-3" th:if="${error != null}">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <strong>Oops!</strong>
+                                <div class="ms-2" th:text="${error}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin Error -->
+
+                    <!-- Botones -->
+                    <div class="row mt-3 mb-3 text-end">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-warning me-2">
+                                Guardar
+                            </button>
+                            <a class="btn btn-secondary" th:href="@{/tripulante/librovuelo}">Cancelar</a>
+                        </div>
+                    </div>
+                    <!-- Fin Botones -->
+
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div th:replace="common :: foot"></div>
+<script src="/js/librovuelo.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-3"></div>
+    <div class="col-md-6" style="padding-left: 90px;padding-right: 90px">
+      <form method="post" th:action="@{|/tripulante/vestimenta-registration|}" th:object="${vestimenta}">
+          <div class="mb-3 col-md-6" th:if="${vestimenta!=null}">
+              <input type="text" th:value="${vestimenta.id}" name="id" id=""hidden>
+          </div>
+
+          <div class="mb-3 col" >
+            <h6>Talla Chaqueta :</h6>
+            <ul class="form-check form-check-inline">
+                <li th:each="talla : ${tallasRopa}" style="list-style: none">
+                    <input type="radio"  class="form-check-input" th:id="${talla}" name="talleChaqueta" th:field="*{talleChaqueta}"
+                         th:value="${talla}" th:checked="${talla}" required/>
+                    <label th:for="tallas" name="talleChaqueta" th:text="${talla}"></label>
+                </li>
+            </ul>
+            <hr style="width: 100%;"/>
+            <h6>Talla Camisa :</h6>
+            <ul class="form-check form-check-inline">
+                <li th:each="talla : ${tallasRopa}" style="list-style: none">
+                    <input type="radio" class="form-check-input" th:id="${talla}" name="talleCamisa" th:field="*{talleCamisa}" th:value="${talla}" required/>
+                    <label th:for="tallas" name="talleCamisa" th:text="${talla}"></label>
+                </li>
+            </ul>
+            <hr />
+            <h6>Talla Pantalon :</h6>
+            <ul class="form-check form-check-inline">
+                <li th:each="talla : ${tallasRopa}" style="list-style: none">
+                    <input type="radio" class="form-check-input" th:id="${talla}" name="tallePantalon" th:field="*{tallePantalon}" th:value="${talla}" required/>
+                    <label th:for="tallas" name="tallePantalon" th:text="${talla}"></label>
+                </li>
+            </ul>
+            <hr />
+              <div th:if="${vestimenta.user.sexo!=null && vestimenta.user.sexo=='F'}">
+                  <h6>Talla Falda :</h6>
+                  <ul class="form-check form-check-inline">
+                      <li th:each="talla : ${tallasRopa}" style="list-style: none">
+                          <input type="radio" class="form-check-input" th:id="${talla}" name="talleFalda" th:field="*{talleFalda}" th:value="${talla}"/>
+                          <label th:for="tallas" name="talleFalda" th:text="${talla}"></label>
+                      </li>
+                  </ul>
+                  <hr class="mt-3 mb-3"/>
+              </div>
+              <h6>Talla Zapatos :</h6>
+            <ul class="form-check form-check-inline">
+                <li th:each="talla : ${tallasRopa}" style="list-style: none">
+                    <input type="radio" class="form-check-input" th:id="${talla}" name="talleZapatos" th:field="*{talleZapatos}" th:value="${talla}" required/>
+                    <label th:for="tallas" name="talleZapatos" th:text="${talla}"></label>
+                </li>
+            </ul>
+            <hr class="mt-3 mb-3"/>
+            <h6>Talla Medias :</h6>
+            <ul class="form-check form-check-inline">
+                <li th:each="talla : ${tallaMedias}" style="list-style: none">
+                    <input type="radio" class="form-check-input" th:id="${talla}" name="talleMedias" th:field="*{talleMedias}" th:value="${talla}" required/>
+                    <label th:for="tallas" name="talleMedias" th:text="${talla}"></label>
+                </li>
+            </ul>
+            <hr/>
+            <ul style="padding: 0">
+                <label class="form-label" for="comentario">Desea dejarnos un comentario?</label>
+                <textarea class="form-control" id="comentario" required type="text" th:field="*{comentario}"/>
+              </ul>
+        </div>
+        <input class="btn btn-warning" type="submit" value="Registrar Vestimenta">
+      </form>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+
+<div class="container-fluid mt-2 mb-2">
+  <form enctype="multipart/form-data" method="post" th:action="@{|/tripulante/mensaje-enviar|}" th:object="${mensaje}">
+    <div class="mb-3 col-md-6">
+      <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+    </div>
+
+    <div class="mb-3 col-sm-12 col-md-6">
+      <label for="usuarios">Usuario</label>
+      <select tabindex="15" id="usuarios" class="form-select" aria-label="usuarios" th:field="*{usuarioRecibe}" required>
+        <option th:value="0">Seleccion usuario</option>
+        <option th:each="user : ${usuarios}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3 col-md-6">
+      <label class="form-label" for="asunto">Asunto</label>
+      <input class="form-control" id="asunto" required type="text" th:field="*{titulo}"/>
+    </div>
+    <div class="mb-3 col-md-6">
+      <label class="form-label" for="cuerpo">Mensaje</label>
+      <textarea class="form-control" id="cuerpo" required type="text" th:field="*{cuerpo}"/>
+    </div>
+
+    <input class="btn btn-warning" type="submit" value="Enviar">
+  </form>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

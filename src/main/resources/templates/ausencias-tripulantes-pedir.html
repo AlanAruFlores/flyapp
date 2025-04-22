@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <h3><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{|/tripulante/mislicencias|}">Mi lista de ausencias </a> > <span
+                    th:text="${'Pedir Ausencia'}"></span>
+            </h3>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <form th:action="@{|/tripulante/ausencia/pedir|}" th:object="${ausencia}" th:method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{user}">
+        <input type="hidden" th:field="*{estadoAusencia}">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="tipoAusencia">Tipo de ausencia:</label>
+                    <select id="tipoAusencia" name="tipoAusencia" class="form-select select-100px"
+                            aria-label="Filtro de estados" style="width: 300px">
+                        <option
+                                th:each="tipo : ${tipoAusencias}"
+                                th:selected="${tipoElegido == tipo && tipoElegido != null}"
+                                th:value="${tipo}"
+                                th:text="${tipo}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group mt-3">
+                    <label for="fechaDesde">Fecha Desde:</label>
+                    <input type="date" class="form-control" id="fechaDesde"
+                           th:field="*{fechaDesde}">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="fechaHasta">Fecha Hasta:</label>
+                    <input type="date" class="form-control" id="fechaHasta"
+                           th:field="*{fechaHasta}">
+                </div>
+            </div>
+        </div>
+        <div th:if="${success != null}" class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-success" role="alert">
+                        <strong>Listo!</strong>
+                        <div class="ms-2" th:text="${success}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${ausenciaAprobada}" class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-success" role="alert">
+                        <div class="ms-2">Felicitaciones! Tu ausencia fue aprobada</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${yaEstaAprobada}" class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert">
+                        <div class="ms-2" th:text="${yaEstaAprobada}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${error != null}" class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Oops!</strong>
+                        <div class="ms-2" th:text="${error}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <button class="btn btn-warning" type="submit">Pedir ausencia</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

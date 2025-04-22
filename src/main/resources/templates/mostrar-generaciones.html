@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <!-- CSS only -->
+
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mt-3">
+    <div class="col-md-0 col-lg-1"></div>
+    <div class="col-12 col-lg-10 me-auto border-bottom d-flex justify-content-between align-items-center">
+      <h2 class="text-center fs-2 fw-semibold py-2 text-md-start"><i class="bi bi-bookmark-fill me-2 fly-color"></i>Nueva Generacion</h2>
+      <div class="col-auto text-end">
+        <a class="btn btn-warning" th:href="@{|/lider/generacion-registration|}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+               class="bi bi-send" viewBox="0 0 16 16">
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+          </svg>
+          Registrar Generación
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-0 col-lg-1"></div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-0 col-lg-1"></div>
+    <div class="col-md-12 col-lg-10">
+      <div class="table-responsive-lg">
+        <table class="table table-hover table-striped table-bordered text-nowrap align-middle text-center">
+          <thead>
+          <tr>
+            <!--  <th id="idAbm" scope="col" class="text-center">Id</th> -->
+              <th scope="col" class="text-center">Número de generación</th>
+              <th scope="col" class="text-center">Descripción</th>
+              <th scope="col" class="text-center">Fecha de Ingreso</th>
+              <th id="acciones" scope="col" class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${generaciones.empty}">
+              <td colspan="6">No hay generaciones disponibles</td>
+            </tr>
+            <tr th:each="cadaGeneracion : ${generaciones}">
+              <!-- <th scope="row"><a class="link-secondary text-decoration-none" type="hidden" href="#" th:text="${cadaGeneracion.id}"></a></th> -->
+              <td class="text-center" th:text="${cadaGeneracion.numero}"></td>
+              <td class="text-center" th:text="${cadaGeneracion.descripcion}"></td>
+              <td class="text-center" th:text="${#temporals.format(cadaGeneracion.fechaIngreso,'dd-MM-yyyy')}"></td>
+
+
+              <td><a type="button" class="btn btn-warning mx-1 my-1" title="Editar generación" th:value="editarGeneracion"
+                     th:href="@{'/lider/generacion-update/' + ${cadaGeneracion.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor"
+                     class="bi bi-pen" viewBox="0 0 16 16">
+                  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                </svg>
+              </a>
+                <a type="button" class="btn btn-warning mx-1 my-1 deleteBtn" th:href="@{'/lider/generacion-delete/' + ${cadaGeneracion.id}}" title="Eliminar generación" onclick="return confirm('¿Realmente desea eliminar el registro?');">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                  <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>
+                </a>
+              </td>
+
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+
+    </div>
+    <div class="col-md-0 col-lg-1"></div>
+  </div>
+
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

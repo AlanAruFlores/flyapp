@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+  <link th:href="@{/css/documentacion.css}" rel="stylesheet">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div style="margin-left: 30%;" class="col-md-10">
+      <form enctype="multipart/form-data" method="post" th:action="@{|/lider/recurrent-actualizado|}" th:object="${recurrentActualizado}">
+
+        <div class="mb-3 col-md-6">
+          <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="numero">Número del recurrent</label>
+          <input class="form-control" id="numero" required type="text" th:value="${recurrentActualizado.numero}" th:field="*{numero}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaDesde">Fecha desde</label>
+          <input class="form-control" id="fechaDesde" required type="date" th:value="${recurrentActualizado.fechaDesde}" th:field="*{fechaDesde}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="fechaHasta">Fecha hasta</label>
+          <input class="form-control" id="fechaHasta" required type="date" th:value="${recurrentActualizado.fechaHasta}" th:field="*{fechaHasta}"/>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="comentario">Comentario</label>
+          <textarea class="form-control" id="comentario" required type="text" th:value="${recurrentActualizado.comentario}" th:field="*{comentario}"/>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#modificarRecurrentModal'">
+          Modificar Recurrent
+        </button>
+        <!-- Modal -->
+        <div class="modal fade text-start" th:id="modificarRecurrentModal" tabindex="-1" th:aria-labelledby="modificarRecurrentModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar Recurrent</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ¿Estás seguro que deseás modificar los datos de éste Recurrent? <br>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerr`ar</button>
+                <input class="btn btn-success" type="submit" value="Modificar">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

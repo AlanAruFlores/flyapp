@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mt-3">
+        <div class="col-md-0 col-lg-1"></div>
+        <div class="col-12 col-lg-10 border-bottom d-flex flex-row justify-content-between align-items-center">
+
+            <div class="col-auto me-auto">
+                <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold py-2 text-md-start"><i class="bi bi-bookmark-fill me-2 fly-color"></i>Aeropuertos</h2>
+            </div>
+            <div class="col-auto text-end">
+                <a class="btn btn-warning" th:href="@{/tripulante/perfil/admin/aeropuerto-registration}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-send" viewBox="0 0 16 16">
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                    </svg>
+                    Registrar nuevo
+                </a>
+            </div>
+        </div>
+        <div class="col-md-0 col-lg-1"></div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-0 col-lg-1"></div>
+        <div class="col-md-12 col-lg-10">
+            <div class="table-responsive-xl">
+                <table class="table table-hover table-striped table-bordered text-nowrap align-middle text-center">
+                    <thead>
+                    <tr>
+                        <th id="idAbm" scope="col" class="text-center">Id</th>
+                        <th scope="col" class="text-center">Codigo</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Direccion</th>
+                        <th scope="col" class="text-center">Provincia</th>
+                        <th id="acciones" scope="col" class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${aeropuertos.empty}">
+                        <td colspan="6">No hay aeropuertos disponibles</td>
+                    </tr>
+                    <tr th:each="cadaAeropuerto : ${aeropuertos}">
+                        <th scope="row"><a class="link-secondary text-decoration-none" href="#" th:text="${cadaAeropuerto.id}"></a></th>
+                        <td class="text-center" th:text="${cadaAeropuerto.codigo}"></td>
+                        <td class="text-center" th:text="${cadaAeropuerto.nombre}"></td>
+                        <td class="text-center" th:text="${cadaAeropuerto.direccion}"></td>
+                        <td class="text-center" th:text="${cadaAeropuerto.provincia}"></td>
+                        <td class="text-center">
+                            <div class="row flex-nowrap">
+                                <form class="col" method="get" th:action="@{'/tripulante/perfil/admin/aeropuerto-update/' + ${cadaAeropuerto.id}}">
+                                    <input class="btn btn-outline-secondary" type="submit" value="Modificar">
+                                </form>
+                                <form class="col" method="get" th:action="@{'/tripulante/perfil/admin/aeropuerto-delete/' + ${cadaAeropuerto.id}}">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#aeropuertoDeleteModal' + ${cadaAeropuerto.id}">
+                                        Eliminar
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade text-start" th:id="'aeropuertoDeleteModal' + ${cadaAeropuerto.id}" tabindex="-1" th:aria-labelledby="'aeropuertoDeleteModal' + ${cadaAeropuerto.id}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Aeropuerto</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ¿Estás seguro que deseás eliminar el aeropuerto? <br>
+                                                    Esta acción no es reversible.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link">Anterior</a>
+                    </li>
+                    <li class="page-item"><a class="page-link bg-warning text-dark" href="#">1</a></li>
+                    <li class="page-item "><a class="page-link bg-warning text-dark" href="#">2</a></li>
+                    <li class="page-item "><a class="page-link bg-warning text-dark" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link text-secondary" href="#">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-0 col-lg-1"></div>
+    </div>
+
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

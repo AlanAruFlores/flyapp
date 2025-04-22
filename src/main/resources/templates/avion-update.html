@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <form method="post" th:action="@{/tripulante/perfil/admin/avion-update}" th:object="${avionUpdate}">
+                <div class="mb-3 col-md-6">
+                    <label class="form-label" for="id">Id</label>
+                    <input class="form-control" id="id" disabled required type="text" th:field="*{id}" th:value="${avionUpdate.id}"/>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label class="form-label" for="matricula">Matrícula</label>
+                    <input class="form-control" id="matricula" required type="text" th:field="*{matricula}" th:value="${avionUpdate.matricula}"/>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input class="form-control" id="nombre" required type="text" th:field="*{nombre}" th:value="${avionUpdate.nombre}"/>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label class="form-label" for="marca">Marca</label>
+                    <input class="form-control" id="marca" required type="text" th:field="*{marca}" th:value="${avionUpdate.marca}"/>
+                </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#modificarAvionModal'">
+                    Modificar Avión
+                </button>
+                <!-- Modal -->
+                <div class="modal fade text-start" th:id="modificarAvionModal" tabindex="-1" th:aria-labelledby="modificarAvionModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modificar Avión</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro que deseás modificar los datos de este avión? <br>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <input class="btn btn-success" type="submit" value="Modificar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

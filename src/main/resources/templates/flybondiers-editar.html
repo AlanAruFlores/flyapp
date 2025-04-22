@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"
+          rel="stylesheet" type="text/css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div style="margin: 1.5rem; margin-top: 1rem" class="col-md-6">
+    <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                          th:href="@{|/flybondiers|}">Flybondiers </a> > <span
+
+            th:text="${empleado.apellido + ', ' + empleado.nombre}"></span>
+    </h4>
+</div>
+
+<!--Informacion de la persona-->
+<div class="row mt-3">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Apellido/s y Nombre/s</th>
+                <th scope="col">Legajo</th>
+                <th scope="col">Fecha de ingreso</th>
+                <th scope="col">Cargo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${empleado.apellido + ', ' + empleado.nombre}"></td>
+                <td th:text="${empleado.legajo}"></td>
+                <td th:text="${empleado.fechaIngreso}"></td>
+                <td th:text="${empleado.tipoCargo}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<!--<form style="margin: auto" method="POST" th:object="${empleado}" th:action="@{|/flybondiers/editar|}">-->
+
+<!--    <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>-->
+<!--    <input class="form-control" id="enabled" required type="hidden" th:field="*{enabled}"/>-->
+<!--    <input class="form-control" id="datosContacto" required type="hidden" th:field="*{datosContacto.id}"/>-->
+<!--    <input class="form-control" id="direccion" required type="hidden" th:field="*{direccion.id}"/>-->
+
+<!--    <label for="nombre"></label>-->
+<!--    <input tabindex="1" th:field="*{nombre}" type="hidden" class="form-control m-0" id="nombre" placeholder="Nombre/s"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="horasDiurnas"></label>-->
+<!--    <input tabindex="10" th:field="*{tvDiurnoInicial}" type="hidden" class="form-control m-0" id="horasDiurnas"-->
+<!--           placeholder="Cantidad de horas diurnas">-->
+
+<!--    <label for="apellido"></label>-->
+<!--    <input tabindex="2" th:field="*{apellido}" type="hidden" class="form-control m-0" id="apellido"-->
+<!--           placeholder="Apellido/s" autofocus="true">-->
+
+<!--    <label for="horasNocturnas"></label>-->
+<!--    <input tabindex="11" th:field="*{tvNocturnoInicial}" type="hidden" class="form-control m-0" id="horasNocturnas"-->
+<!--           placeholder="Cantidad de horas nocturnas">-->
+
+<!--    <label for="username"></label>-->
+<!--    <input th:field="*{username}"-->
+<!--           type="hidden"-->
+<!--           class="form-control m-0" id="username"-->
+<!--           placeholder="Usuario"-->
+<!--           autofocus="true">-->
+<!--    <span class="has-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>-->
+
+<!--    <label for="fechaNacimiento"></label>-->
+<!--    <input tabindex="3" th:field="*{fechaNacimiento}" type="hidden" class="form-control m-0" id="fechaNacimiento">-->
+
+<!--    <label for="cantidadDeAterrizajes"></label>-->
+<!--    <input tabindex="12" th:field="*{cantidadAterrizajeInical}" type="hidden" class="form-control m-0"-->
+<!--           id="cantidadDeAterrizajes"-->
+<!--           placeholder="Cantidad de Aterrizajes">-->
+
+<!--    <label for="fechaIngreso"></label>-->
+<!--    <input tabindex="4" th:field="*{fechaIngreso}" type="hidden" class="form-control m-0" id="fechaIngreso"-->
+<!--           placeholder="Fecha de ingreso" autofocus="true">-->
+
+<!--        <label for="password"></label>-->
+<!--        <input th:field="*{password}"-->
+<!--               type="hidden"-->
+<!--               class="form-control m-0" id="password"-->
+<!--               placeholder="Contraseña">-->
+<!--        <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>-->
+
+<!--    <label for="passwordConfirm"></label>-->
+<!--    <input th:field="*{passwordConfirm}"-->
+<!--           type="hidden"-->
+<!--           class="form-control m-0" id="passwordConfirm"-->
+<!--           placeholder="Confirmá la contraseña">-->
+<!--    <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}"-->
+<!--          th:errors="*{passwordConfirm}"></span>-->
+
+<!--    <label for="mail"></label>-->
+<!--    <input tabindex="5" th:field="*{mail}" type="hidden" class="form-control m-0" id="mail"-->
+<!--           placeholder="email@example.com"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="telefono"></label>-->
+<!--    <input tabindex="6" th:field="*{telefono}" type="hidden" class="form-control m-0" id="telefono"-->
+<!--           placeholder="Teléfono"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="legajo"></label>-->
+<!--    <input tabindex="7" th:field="*{legajo}" type="hidden" class="form-control m-0" id="legajo"-->
+<!--           placeholder="N° de legajo"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="sexo"></label>-->
+<!--    <input th:field="*{sexo}" type="hidden" class="form-control m-0" id="sexo"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="tvTotalInicial"></label>-->
+<!--    <input th:field="*{tvTotalInicial}" type="hidden" class="form-control m-0" id="tvTotalInicial"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="dni"></label>-->
+<!--    <input th:field="*{dni}" type="hidden" class="form-control m-0" id="dni"-->
+<!--           autofocus="true">-->
+
+<!--    <label for="dni"></label>-->
+
+<!-- &lt;!&ndash;   <input th:field="*{vestimenta.id}" type="hidden" class="form-control m-0" id="vestimenta"-->
+<!--           autofocus="true">-->
+<!--&ndash;&gt;-->
+<!--    <div style="width: 25rem; margin-bottom: 20px;">-->
+<!--        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="roles">Modificá su rol</label>-->
+<!--        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" class="form-control selectpicker" multiple id="roles"-->
+<!--                th:field="*{roles}" required>-->
+<!--            <option th:each="r : ${roles}"-->
+<!--                    th:value="${r.id}"-->
+<!--                    th:text="${r.name}">-->
+
+<!--            </option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+<!--    <div style="width: 25rem; margin-bottom: 20px;">-->
+<!--        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="cargos">Modificá su cargo</label>-->
+<!--        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="cargos" class="form-select" aria-label="cargos" th:field="*{tipoCargo}">-->
+<!--            <option th:value="0">Selecciona tu cargo</option>-->
+<!--            <option th:each="cargos : ${cargos}"-->
+<!--                    th:value="${cargos}"-->
+<!--                    th:text="${cargos}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+<!--    <div style="width: 25rem; margin-bottom: 20px;">-->
+<!--        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="generaciones">Modificá su generación</label>-->
+<!--        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="generaciones" class="form-select" aria-label="generaciones" th:field="*{generacion}">-->
+<!--            <option th:each="generacion : ${generaciones}"-->
+<!--                    th:value="${generacion.id}"-->
+<!--                    th:text="${'Generación' + '  ' + generacion.numero}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+<!--    <div style="width: 25rem">-->
+<!--        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="lideres">Modificá su líder</label>-->
+<!--        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="lideres" class="form-select" th:field="*{lider}">-->
+<!--            <option th:value="0">Selecciona tu líder</option>-->
+<!--            <option th:each="lideres : ${lideres}"-->
+<!--                    th:value="${lideres.id}"-->
+<!--                    th:text="${lideres.nombre + ' ' + lideres.apellido}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--    </div>-->
+
+<!--    <div class="row mt-3" th:if="${confirmado != null}">-->
+<!--        <div>-->
+<!--            <div style="display: flex" class="alert alert-success" role="alert">-->
+<!--                <strong>Listo!</strong>-->
+<!--                <div class="ms-2" th:text="${confirmado}"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div style="margin-top: 1.5rem;width: 15rem;display: flex;margin: auto;">-->
+<!--        <button style="margin-top: 2.5rem" class="w-100 btn btn-lg btn-warning">Modificar roles</button>-->
+<!--    </div>-->
+<!--    <h4 class="text-center mt-2" style="font-size: medium"><a-->
+<!--            class="text-decoration-none text-warning"-->
+<!--             th:href="@{|/flybondiers|}">Volver a-->
+<!--        flybondiers</a></h4>-->
+
+<!--</form>-->
+<form style="margin: auto" method="POST" th:object="${flybondiersEdit}" th:action="@{|/flybondiers/editar|}">
+
+    <input class="form-control" id="id" required type="hidden" th:field="*{id}"/>
+
+    <div style="width: 25rem; margin-bottom: 20px;">
+        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="roles">Modificá su rol</label>
+        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" class="form-control selectpicker" multiple id="roles"
+                th:field="*{roles}" required>
+            <option th:each="r : ${roles}"
+                    th:value="${r.id}"
+                    th:text="${r.name}">
+
+            </option>
+        </select>
+    </div>
+
+    <div style="width: 25rem; margin-bottom: 20px;">
+        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="cargos">Modificá su cargo</label>
+        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="cargos" class="form-select" aria-label="cargos" th:field="*{tipoCargo}">
+            <option th:value="0">Selecciona tu cargo</option>
+            <option th:each="cargos : ${cargos}"
+                    th:value="${cargos}"
+                    th:text="${cargos}">
+            </option>
+        </select>
+    </div>
+
+    <div style="width: 25rem; margin-bottom: 20px;">
+        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="generaciones">Modificá su generación</label>
+        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="generaciones" class="form-select" aria-label="generaciones" th:field="*{generacion}">
+            <option th:each="generacion : ${generaciones}"
+                    th:value="${generacion.id}"
+                    th:text="${'Generación' + '  ' + generacion.numero}">
+            </option>
+        </select>
+    </div>
+
+    <div style="width: 25rem">
+        <label sec:authorize="hasRole('ROLE_ADMINISTRADOR')" for="lideres">Modificá su líder</label>
+        <select sec:authorize="hasRole('ROLE_ADMINISTRADOR')" id="lideres" class="form-select" th:field="*{lider}">
+            <option th:value="0">Selecciona tu líder</option>
+            <option th:each="lideres : ${lideres}"
+                    th:value="${lideres.id}"
+                    th:text="${lideres.nombre + ' ' + lideres.apellido}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row mt-3" th:if="${confirmado != null}">
+        <div>
+            <div style="display: flex" class="alert alert-success" role="alert">
+                <strong>Listo!</strong>
+                <div class="ms-2" th:text="${confirmado}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 1.5rem;width: 15rem;display: flex;margin: auto;">
+        <button style="margin-top: 2.5rem" class="w-100 btn btn-lg btn-warning">Modificar Datos</button>
+    </div>
+    <h4 class="text-center mt-2" style="font-size: medium"><a
+            class="text-decoration-none text-warning"
+            th:href="@{|/flybondiers|}">Volver a
+        flybondiers</a></h4>
+
+</form>
+<div th:replace="common :: foot"></div>
+<script src="https://cdn.jsdelivr.net/npm/select-picker@0.3.2/dist/picker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select-picker@0.3.2/dist/picker.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+</body>
+
+</html>

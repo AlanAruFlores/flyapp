@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row" style="margin-bottom: 30px">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h3><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs"
+                                                                      th:href="@{|/lider/listarAusencias|}">Pedido
+                    Ausencias </a> >
+                    <span>Ausencia</span>
+                </h3>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div style="column-gap: 30px;">
+                    <div>
+                        <div>
+                            <form th:object="${ausencia}" method="post" th:action="@{|/lider/ausencias/aprobar|}">
+                                <input type="hidden" th:field="*{id}">
+                                <input type="hidden" th:field="*{user}">
+                                <input type="hidden" th:field="*{fechaDesde}">
+                                <input type="hidden" th:field="*{fechaHasta}">
+                                <input type="hidden" th:field="*{tipoAusencia}">
+                                <input type="hidden" th:field="*{estadoAusencia}">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" scope="col">DNI</th>
+                                        <th class="text-center" scope="col">Nombre y apellido</th>
+                                        <th class="text-center" scope="col">Legajo</th>
+                                        <th class="text-center" scope="col">Cargo</th>
+                                        <th class="text-center" scope="col">Fecha Inicio</th>
+                                        <th class="text-center" scope="col">Fecha Finalizacion</th>
+                                        <th class="text-center" scope="col">Tipo de ausencia</th>
+                                        <th class="text-center" scope="col">Estado de ausencia</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                    <tr class="text-center">
+                                        <td th:text="${ausencia.user.dni}"></td>
+                                        <td th:text="${ausencia.user.nombre + ' ' + ausencia.user.apellido}"></td>
+                                        <td th:text="${ausencia.user.legajo}"></td>
+                                        <td th:text="${ausencia.user.tipoCargo}"></td>
+                                        <td th:text="${#temporals.format(ausencia.fechaDesde,'dd-MM-yyyy')}"></td>
+                                        <td th:text="${#temporals.format(ausencia.fechaHasta,'dd-MM-yyyy')}"></td>
+                                        <td th:text="${ausencia.tipoAusencia}"></td>
+                                        <td th:text="${ausencia.estadoAusencia}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-warning" value="aprobar">Aprobar</button>
+                                <input class="btn btn-warning" type="submit" value="desaprobar" th:formaction="@{|/lider/ausencias/desaprobar|}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

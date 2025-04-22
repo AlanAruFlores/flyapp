@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+    <style>
+        .alert-danger{ width: 50%; }
+        .alert-success{ width: 50%; display: flex; }
+    </style>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+
+    <div th:replace="common :: nav-profile"></div>
+
+    <!--Seguridad -->
+    <div class="row mt-3">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="row">
+                <form method="POST" th:object="${datosContrasenia}" th:action="@{/newPassword}">
+
+                    <div class="mb-3 col-sm-12 col-md-6">
+                        <label for="currentPassword" class="form-label">Escriba contraseña actual</label>
+                        <input th:field="*{currentPassword}" type="password" class="form-control" id="currentPassword" placeholder="Contraseña actual">
+                    </div>
+
+                    <div class="mb-3 col-sm-12 col-md-6">
+                        <label for="password" class="form-label">Cambiar contraseña</label>
+                        <input th:field="*{password}" type="password" class="form-control" id="password" placeholder="Nueva contraseña">
+                    </div>
+
+                    <div class="mb-3 col-sm-12 col-md-6">
+                        <label for="passwordConfirm" class="form-label">Repita contraseña</label>
+                        <input th:field="*{passwordConfirm}" type="password" class="form-control" id="passwordConfirm" placeholder="Repita nueva contraseña">
+                    </div>
+                    <input class="btn btn-warning" type="submit" value="Confirmar">
+                    <div class="row mt-3" th:if="${error != null}">
+                        <div>
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <strong>Oops!</strong>
+                                <div class="ms-2" th:text="${error}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3" th:if="${confirmado != null}">
+                        <div>
+                            <div class="alert alert-success" role="alert">
+                                <strong>Listo!</strong>
+                                <div class="ms-2" th:text="${confirmado}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+</body>
+</html>

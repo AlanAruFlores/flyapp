@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i> Libro de vuelo</h2>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-3" th:if="${error != null}">
+            <div class="col-md-12">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <strong>Oops!</strong>
+                    <div class="ms-2" th:text="${error}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h4><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del empleado</h4>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <!--Informacion de la persona-->
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Apellido/s y Nombre/s</th>
+                        <th scope="col">Legajo</th>
+                        <th scope="col">Fecha de ingreso</th>
+                        <th scope="col">Cargo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.apellido + ', ' + user.nombre}"></td>
+                        <td th:text="${user.legajo}"></td>
+                        <td th:text="${user.fechaIngreso}"></td>
+                        <td th:text="${user.tipoCargo}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+        <!--FIN Informacion de la persona-->
+
+        <!--Horas-->
+        <div class="row mt-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="accordion" id="totalesHoras">
+
+                    <div class="accordion-item">
+                        <h4 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <i class="bi bi-bookmark-fill me-2 fly-color"></i> Totales de horas
+                            </button>
+                        </h4>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                             data-bs-parent="#totalesHoras">
+                            <div class="accordion-body">
+                                <div class="row mt-1">
+                                    <div class="col-md-6">
+
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Horas Foliadas</th>
+                                                <th scope="col">Cantidad</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Cantidad de horas diurnas</td>
+                                                <td th:text="${#numbers.formatDecimal(totalTvDiurnoIniciales, 1, 'COMMA', 1, 'POINT')}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cantidad de horas nocturnas</td>
+                                                <td th:text="${#numbers.formatDecimal(totalTvNocturnaIniciales, 1, 'COMMA', 1, 'POINT')}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total de horas</td>
+                                                <td th:text="${#numbers.formatDecimal(totalTvIniciales, 1, 'COMMA', 1, 'POINT')}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total de aterrizajes</td>
+                                                <td th:text="${totalAterizajesIniciales}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Horas realizadas
+                                                </th>
+                                                <th scope="col">Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Total horas diurnas
+                                                </td>
+
+                                                <td th:text="${#numbers.formatDecimal(totalTvDiurno, 1, 'COMMA', 1, 'POINT')}"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Total horas nocturnas
+                                                </td>
+                                                <td th:text="${#numbers.formatDecimal(totalTvNocturno, 1, 'COMMA', 1, 'POINT')}"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Total horas
+                                                </td>
+                                                <td th:text="${#numbers.formatDecimal(totalTv, 1, 'COMMA', 1, 'POINT')}"></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td>Total horas Aterrizaje
+                                                </td>
+                                                <td th:text="${totalAterrizajes}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--Fin Horas-->
+
+        <!--Vuelos-->
+        <div class="row mt-3 mb-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <div class="accordion" id="vuelos">
+
+                    <div class="accordion-item">
+                        <h4 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                <i class="bi bi-bookmark-fill me-2 fly-color"></i> Vuelos
+                            </button>
+                        </h4>
+                        <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+                             data-bs-parent="#vuelos">
+                            <div class="accordion-body pt-5 pb-5">
+                                <div class="row mt-1">
+                                    <div class="col-md-12">
+
+                                        <form method="get" th:action="@{|/tripulante/librovuelo|}">
+
+                                            <div class="row" o>
+                                                <div class="col-md-1 text-start">
+                                                    <label for="selectCantidadRegistros"
+                                                           class="form-label col-form-label">Registros</label>
+                                                </div>
+                                                <div class="col-md-1 text-start">
+                                                    <select id="selectCantidadRegistros" name="recordsQuantity"
+                                                            class="form-select select-100px"
+                                                            aria-label="Cantidad de registros por página">
+                                                        <option th:each="cantidad : ${cantidadDeRegitrosPorPaginas}"
+                                                                th:value="${cantidad}" th:text="${cantidad}"
+                                                                th:selected="${cantidad} == ${recordsQuantity}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1 text-start">
+                                                    <label for="selectSort" class="form-label col-form-label">Ordenar
+                                                        por</label>
+                                                </div>
+                                                <div class="col-md-3 text-start">
+                                                    <select id="selectSort" name="sortField"
+                                                            class="form-select select-270px" aria-label="Ordenar por">
+                                                        <option th:each="sf : ${sortFields}" th:value="${sf.getKey()}"
+                                                                th:text="${sf.getValue()}"
+                                                                th:selected="${sf.getKey()} == ${sortField}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1 text-start">
+                                                    <label for="selectOrientation" class="form-label col-form-label">Orientación</label>
+                                                </div>
+                                                <div class="col-md-3 text-start">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <select id="selectOrientation" name="sortOrientation"
+                                                                    class="form-select select-100px"
+                                                                    aria-label="Orientación">
+                                                                <option th:each="so : ${sortOrientations}"
+                                                                        th:value="${so}" th:text="${so}"
+                                                                        th:selected="${so} == ${orientation}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button type="submit" class="btn btn-warning">
+                                                                Aplicar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <a class="btn btn-warning"
+                                                       th:href="@{|/tripulante/librovuelo/registrar|}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor"
+                                                             class="bi bi-send" viewBox="0 0 16 16">
+                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                                        </svg>
+                                                        Registrar vuelo
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="row mt-3">
+                                            <div class="col-md-12 table-responsive-xl">
+
+                                                <table class="table table-bordered table-striped ">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th>Fecha y hora de despegue</th>
+                                                        <th>Desde</th>
+                                                        <th>Hasta</th>
+                                                        <th>Fecha y hora de aterrizaje</th>
+                                                        <th>Finalidad del vuelo</th>
+                                                        <th>Marca</th>
+                                                        <th>Matrícula</th>
+                                                        <th>Folio RVA</th>
+                                                        <th>De día</th>
+                                                        <th>De noche</th>
+                                                        <th>Total</th>
+                                                        <th>Aterrizajes</th>
+                                                        <th>Instructor del TCP</th>
+                                                        <th>Tipo de Aeronave</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    <tr th:if="${vuelosRealizados.empty}">
+                                                        <td class="text-center" colspan="15">No hay vuelos disponibles
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="text-center" th:unless="${vuelosRealizados.size()==0}"
+                                                        th:each="vr : ${vuelosRealizados}">
+                                                        <td th:text="${#temporals.format(vr.fechahoraDespegue,'dd-MM-yyyy HH:mm')}"></td>
+                                                        <td th:text="${vr.aeropuertoOrigen.codigo}"
+                                                            th:title="${vr.aeropuertoOrigen.nombre + ' - ' + vr.aeropuertoOrigen.provincia}"></td>
+                                                        <td th:text="${vr.aeropuertoDestino.codigo}"
+                                                            th:title="${vr.aeropuertoDestino.nombre + ' - ' + vr.aeropuertoDestino.provincia}"></td>
+                                                        <td th:text="${#temporals.format(vr.fechahoraAterrizaje,'dd-MM-yyyy HH:mm')}"></td>
+                                                        <td th:text="${vr.finalidadDelVuelo}"></td>
+                                                        <td th:text="${vr.avion.marca}"></td>
+                                                        <td th:text="${vr.avion.matricula}"></td>
+                                                        <td th:text="${vr.folioRVA}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(vr.horasDiurnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(vr.horasNocturnas, 1, 'COMMA', 1, 'POINT')}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(vr.totalDeHoras, 1, 'COMMA', 1, 'POINT')}"></td>
+                                                        <td>1</td>
+                                                        <!--Columna aterrizajes: Revisar de donde se obtiene el dato-->
+                                                        <td th:text="${vr.instructorTcp}"></td>
+                                                        <td th:text="${vr.tipoAeronave}"></td>
+                                                        <td>
+
+
+                                                            <a th:if="${vr.foliado == null}" type="button" class="btn btn-warning mx-1 my-1"
+                                                               title="Editar vuelo"
+                                                               th:href="@{|/tripulante/librovuelo/editar/${vr.id}|}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-pen" viewBox="0 0 16 16">
+                                                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                                                </svg>
+                                                            </a>
+
+                                                            <!--                                                                <a type="button" class="btn btn-warning mx-1 my-1" title="Editar vuelo" th:href="@{|/tripulante/librovuelo/editar/${vr.id}|}">-->
+                                                            <!--                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+                                                            <!--                                                                         class="bi bi-pen" viewBox="0 0 16 16">-->
+                                                            <!--                                                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>-->
+                                                            <!--                                                                    </svg>-->
+                                                            <!--                                                                </a>-->
+                                                            <!--&gt;>>>>>> pedidos-vacaciones-validaciones-->
+
+                                                            <a th:if="${vr.foliado == null}" type="button" class="btn btn-warning mx-1 my-1 deleteBtn"
+                                                               th:href="@{|/tripulante/librovuelo/${vr.id}/eliminar|}"
+                                                               title="Eliminar vuelo"
+                                                               onclick="return confirm('¿Realmente desea eliminar el registro?');">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-trash" viewBox="0 0 16 16">
+                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                                    <path fill-rule="evenodd"
+                                                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                                </svg>
+                                                            </a>
+
+                                                            <a type="button" class="btn btn-warning mx-1 my-1"
+                                                               data-bs-toggle="modal" data-bs-target="#etiquetarPersona"
+                                                               title="Etiquetar persona"
+                                                               th:href="@{|/tripulante/nuevaNotificacion/${vr.id}|}"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-share" viewBox="0 0 16 16">
+                                                                    <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                                                                </svg>
+                                                            </a>
+
+                                                            <!-- Modal Notificaciones-->
+                                                            <form th:action="@{|/tripulante/nuevaNotificacion/${vr.id}|}" method="post" th:object="${datosNotificacionUsuario}">
+                                                                <input required type="hidden" th:id="${datosNotificacionUsuario.idVueloRealizado}" th:name="${datosNotificacionUsuario.idVueloRealizado}"
+                                                                       th:value="${datosNotificacionUsuario.idVueloRealizado}" th:field="*{idVueloRealizado}"/>
+                                                                <div class="modal fade" id="etiquetarPersona" tabindex="-1"
+                                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h2 class="modal-title" style="font-size: 18px"
+                                                                                    id="exampleModalLabel">Tripulantes</h2>
+                                                                                <button type="button" class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                            </div>
+
+                                                                            <div class="modal-header">
+                                                                                <input size="40" type="text" name="buscador" id="buscador" class="buscador" placeholder="Buscar tripulante..">
+                                                                            </div>
+
+                                                                            <div class="modal-body" >
+                                                                                <div class="not-found" style="display: none;">No se encontraron tripulantes</div>
+                                                                                <div class="tripulantes" th:each="t : ${tripulantes}" id="tripulantes" >
+                                                                                    <label class="form-check-label"></label>
+                                                                                    <input  type="checkbox" th:value="${t.id}" th:field="*{idsUsuarios}"
+                                                                                            th:text="${t.nombre} + ' ' + ${t.apellido}+ ' ' + '-' + ' ' +${t.legajo}
+                        + ' ' + '-' + ' ' +${t.tipoCargo}"
+                                                                                            style="cursor: pointer; margin-right: 5px;">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-danger"
+                                                                                        data-bs-dismiss="modal">Cancelar
+                                                                                </button>
+                                                                                <button type="submit" class="btn btn-success">Asignar
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-8">
+                                                        <nav th:if="${!vuelosRealizados.empty}" aria-label="Pagination">
+                                                            <ul class="pagination justify-content-center">
+                                                                <li class="page-item"
+                                                                    th:classappend="${prev == 0 ? 'disabled': ''}">
+                                                                    <a class="page-link"
+                                                                       th:href="@{|/tripulante/librovuelo?page=${prev}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Anterior</a>
+                                                                </li>
+                                                                <li class="page-item" th:each="page : ${pages}"
+                                                                    th:classappend="${current == page ? 'active': ''}">
+                                                                    <a class="page-link"
+                                                                       th:href="@{|/tripulante/librovuelo?page=${page}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}"
+                                                                       th:text="${page}"></a>
+                                                                </li>
+                                                                <li class="page-item"
+                                                                    th:classappend="${current == last ? 'disabled': ''}">
+                                                                    <a class="page-link"
+                                                                       th:href="@{|/tripulante/librovuelo?page=${next}&recordsQuantity=${recordsQuantity}&sortField=${sortField}&sortOrientation=${orientation}|}">Siguiente</a>
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--FIN Vuelos-->
+
+        <!--historial foliado -->
+        <div class="row mt-3 mb-3">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <div class="accordion" id="foliado">
+
+                    <div class="accordion-item">
+                        <h4 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <i class="bi bi-bookmark-fill me-2 fly-color"></i> Historial de Foliado
+                            </button>
+                        </h4>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                             data-bs-parent="#foliado">
+                            <div class="accordion-body">
+
+                                <div class="row mt-3">
+                                    <div class="col-md-12 pb-3">
+                                        <a class="btn btn-warning"
+                                           th:href="@{|/tripulante/foliados/verhorasnofoliadas|}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                                                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+                                                <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+                                            </svg>
+                                            Nuevo Foliado
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+
+                                    <div class="col-md-12 table-responsive">
+
+                                        <table class="table table-bordered table-striped ">
+                                            <thead>
+                                            <tr class="text-center">
+                                                <th>Fecha foliado</th>
+                                                <th>Total horas diurnas</th>
+                                                <th>Total horas nocturnas</th>
+                                                <th>Total de horas</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                            <tr th:if="${foliados.empty}">
+                                                <td class="text-center" colspan="5">No se han realizado foliados</td>
+                                            </tr>
+                                            <tr class="text-center" th:unless="${foliados.size()==0}"
+                                                th:each="fl: ${foliados}">
+                                                <td th:text="${#temporals.format(fl.fechaFoliado,'yyyy-MM-dd')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(fl.obtenerTotalDeHoraDiurnasFoliadas(), 1, 'COMMA', 1, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(fl.obtenerTotalDeHoraNocturnasFoliadas(), 1, 'COMMA', 1, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(fl.obtenerTotalDeHorasFoliadas(), 1, 'COMMA', 1, 'POINT')}"></td>
+
+                                                <td>
+
+                                                    <a type="button" class="btn btn-warning mx-1 my-1"
+                                                       title="Ver foliado"
+                                                       th:href="@{|/tripulante/foliados/verhorasfoliadas?id=${fl.id}|}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                                        </svg>
+                                                    </a>
+
+                                                    <a th:if="${lastFoliado.getId() == fl.getId()}" type="button"
+                                                       class="btn btn-warning mx-1 my-1 deleteBtn"
+                                                       th:href="@{|/tripulante/foliados/${fl.id}/eliminar|}"
+                                                       title="Eliminar foliado"
+                                                       onclick="return confirm('¿Realmente desea eliminar el registro?');">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor"
+
+                                                             class="bi bi-trash" viewBox="0 0 16 16">
+                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                            <path fill-rule="evenodd"
+                                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                        </svg>
+                                                    </a>
+
+                                                    <a type="button" class="btn btn-warning mx-1 my-1 deleteBtn"
+                                                       th:href="@{|/tripulante/foliados/${fl.id}/pdf|}"
+                                                       title="Exportar a PDF">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-file-earmark-pdf"
+                                                             viewBox="0 0 16 16">
+                                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                                            <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z"/>
+                                                        </svg>
+                                                    </a>
+
+                                                </td>
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <!--FIN historial de foliado-->
+    </div>
+</div>
+
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

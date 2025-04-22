@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+  <div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h2><i class="bi bi-book-half me-2 fly-color"></i>Notificaciones</h2>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+      <div class="row mt-3" th:if="${vueloAgregado != null}">
+          <div class="col-md-12">
+              <div class="alert alert-success d-flex align-items-center" role="alert">
+                  <strong>Bien !!! </strong>
+                  <div class="ms-2" th:text="${vueloAgregado}">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--Vuelos-->
+      <div class="row mt-3 mb-3">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+
+              <div class="accordion" id="vuelos">
+
+                  <div class="accordion-item">
+                      <h4 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                              <i class="bi bi-bookmark-fill me-2 fly-color"></i> Notificaciones No Leidas
+                          </button>
+                      </h4>
+                      <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+                           data-bs-parent="#vuelos">
+                          <div class="accordion-body pt-5 pb-5">
+                              <div class="row mt-1">
+                                  <div class="col-md-12">
+                                      <div class="row mb-5">
+
+
+                                              <div style="column-gap: 30px;" th:if="${notificacionesNoLeidas.empty}">
+                                                  <ul class="list-group list-group-flush">
+                                                      <li class="list-group-item"><span>No hay nuevas notificaciones</span></li>
+                                                  </ul>
+                                                  <hr/>
+                                              </div>
+
+                                              <div style="width: 100%" th:each="notificacion:${notificacionesNoLeidas}">
+                                                  <div class="col" style="width: 100%; display: flex; justify-content: space-between">
+                                                      <div class="row">
+                                                          <span class="fw-bold" style="color: black; font-size: large"  th:text="${notificacion.tipo}"></span>
+                                                          <span style="color: gray;" th:text="${notificacion.mensaje}"></span>
+                                                      </div>
+
+                                                      <div>
+                                                          <div class="col" th:if="${notificacion.tipo ==  T(com.flybook.librovuelo.model.TipoNotificacion).LIBROVUELO}">
+
+                                                              <a type="button" class="btn btn-success"   title="Aceptar"     th:href="@{|/tripulante/aceptarnotifiacionlibrovuelo/${notificacion.id}|}">Aceptar </a>
+
+
+                                                              <a type="button" class="btn btn-danger"
+                                                                 th:href="@{|/tripulante/rechazarnotifiacion/${notificacion.id}|}"
+                                                                 title="Rechazar Notificacion"
+                                                                 onclick="return confirm('¿Realmente desea rechazar la notificacion?');">Rechazar </a>
+                                                          </div>
+                                                          <div class="col" th:if="${notificacion.tipo !=  T(com.flybook.librovuelo.model.TipoNotificacion).LIBROVUELO}">
+
+                                                              <a type="button" class="btn btn-danger"   title="Marcar Como leida"     th:href="@{|/tripulante/rechazarnotifiacion/${notificacion.id}|}">Marcar Como leida  </a>
+
+                                                          </div>
+
+                                                      </div>
+                                                  </div>
+                                                  <hr/>
+                                              </div>
+
+
+
+
+
+                                      </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-1"></div>
+      </div>
+      <!--FIN Vuelos-->
+
+      <!--historial foliado -->
+      <div class="row mt-3 mb-3">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+
+              <div class="accordion" id="foliado">
+
+                  <div class="accordion-item">
+                      <h4 class="accordion-header" id="headingThree">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              <i class="bi bi-bookmark-fill me-2 fly-color"></i> Notificaciones Leidas
+                          </button>
+                      </h4>
+                      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                           data-bs-parent="#foliado">
+
+                          <div class="accordion-body pt-5 pb-5">
+
+
+                              <div class="row mt-1">
+                                  <div class="col-md-12">
+
+                                      <div class="row mb-5">
+
+
+                                              <div style="column-gap: 30px;" th:if="${notificacionesNoLeidas.empty}">
+                                                  <ul class="list-group list-group-flush">
+                                                      <li class="list-group-item"><span>No hay nuevas notificaciones</span></li>
+                                                  </ul>
+                                                  <hr/>
+                                              </div>
+
+                                              <div style="width: 100%" th:each="notificacion:${notificacionesLeidas}">
+                                                  <div class="col" style="width: 100%; display: flex; justify-content: space-between">
+                                                      <div class="row">
+                                                          <!--              <h2>  <span th:text="${notificacion.tipo}"  class="fw-bold"  style="font-size: large">title</span></h2>-->
+                                                          <span class="fw-bold" style="color: black; font-size: large"  th:text="${notificacion.tipo}"></span>
+                                                          <span style="color: gray;" th:text="${notificacion.mensaje}"></span>
+                                                      </div>
+
+                                                      <div>
+                                                          <div class="col" th:if="${notificacion.tipo ==  T(com.flybook.librovuelo.model.TipoNotificacion).LIBROVUELO}">
+
+                                                              <a type="button" class="btn btn-success"   title="Marcar Como leida"     th:href="@{|/tripulante/marcarnotifiacionnoleida/${notificacion.id}|}">Marcar Como No leida  </a>
+
+
+                                                              <a type="button" class="btn btn-danger"
+                                                                 th:href="@{|/tripulante/eliminar/notifiacion/${notificacion.id}|}"
+                                                                 title="Rechazar Notificacion"
+                                                                 onclick="return confirm('¿Realmente desea eliminar la notificacion?');"> eliminar </a>
+
+                                                          </div>
+                                                          <div class="col" th:if="${notificacion.tipo !=  T(com.flybook.librovuelo.model.TipoNotificacion).LIBROVUELO}">
+
+                                                              <a type="button" class="btn btn-danger"   title="Marcar Como leida"     th:href="@{|/tripulante/rechazarnotifiacion/${notificacion.id}|}">Marcar Como leida  </a>
+
+                                                          </div>
+
+                                                      </div>
+                                                  </div>
+                                                  <hr/>
+                                              </div>
+
+
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-1"></div>
+      </div>
+      <!--FIN historial de foliado-->
+
+
+
+      <div class="col-md-1"></div>
+    </div>
+
+  </div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

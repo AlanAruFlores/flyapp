@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{|/lider/mostrar-recurrent|}">Asignar tripulantes </a> > <span
+                    th:text="${title}"></span>
+            </h4>
+        </div>
+        <div class="col-md-4 text-end">
+            <a class="btn btn-warning" th:href="@{/lider/mostrar-recurrent}">
+                Volver
+            </a>
+        </div>
+        <div class="col-md-1"></div>
+        <div style="margin-left: 30%;" class="col-md-10">
+    <form th:action="@{|/lider/validarTripulantesAsignados|}" method="post" th:object="${tripulanteRecurrent}">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="mb-3 col-md-6">
+                    <input th:value="${tripulanteRecurrent.id}" th:id="${tripulanteRecurrent.id}" th:name="${tripulanteRecurrent.id}" class="form-control" required type="hidden" th:field="*${id}"/>
+                </div>
+                <div style="margin-top:50px;" class="list-group" id="list-tab" role="tablist">
+                    <h4 style="margin-bottom: 20px;">Seleccione un recurrent</h4>
+                    <td th:each="r : ${listaDeRecurrents}">
+                        <label th:for="${r.id}"
+                               class="list-group-item list-group-item-action templist"
+                               data-toggle="list"
+                               role="tab"
+                               th:text="'Numero: ' + ${r.numero} + ' ' + '/' + ' ' +
+                                        'Fecha desde: ' + ${r.fechaDesde} + ' ' + '/' + ' ' +
+                                        'Fecha hasta: ' + ${r.fechaHasta}"></label>
+                        <input type="radio" th:field="*{recurrent.id}" th:id="${r.id}" class="d-none" th:name="${r.id}"
+                               th:value="${r.id}"/>
+                    </td>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                    <div style="margin-top:50px;" class="list-group" id="lista-tab" role="tablist">
+                            <h4 style="margin-bottom: 20px;">Seleccione un tripulante</h4>
+                            <select tabindex="50" id="tripulantes" class="form-select" aria-label="tripulantes" th:field="*{tripulante.id}" required>
+                                <option th:value="0">Seleccioná un tripulante</option>
+                                <option th:each="t : ${listaDeTripulantes}"
+                                        th:value="${t.id}"
+                                        th:text="${t.id} + ' ' + '-' + ' ' + ${t.nombre} + ' ' + ${t.apellido}+ ' ' + '-' + ' ' +
+                                        'Sexo: ' + ${t.sexo}">
+                                </option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+    <div style="margin-top: 30px;">
+        <input class="btn btn-warning" type="submit" value="Asignar Tripulantes">
+    </div>
+    </div>
+    </form>
+    </div>
+</div>
+</div>
+
+<div th:replace="common :: foot"></div>
+<script>
+    $('#list-tab label').on('click', function(e) {
+        $(this).tab('show');
+    });
+    $('#lista-tab label').on('click', function(e) {
+        $(this).tab('show');
+    });
+</script>
+</body>
+</html>

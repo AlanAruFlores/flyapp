@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+    <!-- Custom stlylesheet -->
+    <link th:href="@{/css/accesodenegado.css}" rel="stylesheet">
+    <title>Error</title>
+</head>
+<body>
+
+<div id="notfound">
+    <div class="notfound">
+        <div class="notfound-404">
+            <div></div>
+            <h1 th:text="${status}"></h1>
+        </div>
+        <h2 th:text="${title}"></h2>
+        <p th:text="${message}"></p>
+        <a th:href="@{|/|}">volver a inicio</a>
+    </div>
+</div>
+
+</body>
+
+</html>

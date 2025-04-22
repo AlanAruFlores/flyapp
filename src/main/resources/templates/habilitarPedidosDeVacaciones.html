@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+<link th:href="@{/css/HabilitarPedidosDeVacaciones.css}" rel="stylesheet">
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+    <div class="row mb-5">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h2 class="text-center fs-2 mt-2 mb-2 fw-semibold border-bottom py-2 text-md-start"><i class="bi bi-book-half me-2 fly-color"></i>Habilitar vacaciones</h2>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <form th:action="@{|/tripulante/operaciones/habilitar-vacaciones|}" th:object="${habilitarVacaciones}"
+          th:method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="container-habilitar">
+                    <label for="habilitar" class="habilitar">Habilitar</label>
+                    <input type="checkbox" id="habilitar" th:field="*{habilitar}" class="custom-checkbox">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group mt-4">
+                    <label for="fechaDesde">Fecha Desde:</label>
+                    <input type="date" class="form-control" id="fechaDesde"
+                           th:field="*{habilitarPedidoDeVacacionesDesde}">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="fechaHasta">Fecha Hasta:</label>
+                    <input type="date" class="form-control" id="fechaHasta"
+                           th:field="*{habilitarPedidoDeVacacionesHasta}">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-4">
+                <button class="btn btn-warning" type="submit">Guardar cambios</button>
+            </div>
+        </div>
+    </form>
+    <div class="row justify-content-center mb-3" th:if="${vacacionesHabilitadas != null && deshabilitado != false}">
+        <div class="col-md-4">
+                <div class="alert alert-success" role="alert">
+                    <div class="ms-2" th:text="${vacacionesHabilitadas}"></div>
+                </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3" th:if="${deshabilitado == false}">
+        <div class="col-md-4">
+                <div class="alert alert-warning" role="alert">
+                    <div class="ms-2" th:text="${vacacionesDeshabilitadas}"></div>
+                </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3" th:if="${error != null}">
+        <div class="col-md-4">
+            <div class="alert alert-danger" role="alert">La fecha desde es posterior a fecha hasta</div>
+        </div>
+    </div>
+</div>
+<div th:replace="common :: foot"></div>
+<script th:src="@{/js/habilitarVacaciones.js}"></script>
+</body>
+</html>

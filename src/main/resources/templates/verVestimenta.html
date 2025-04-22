@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <div th:replace="common :: head"></div>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div class="container-fluid mt-2 mb-2">
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" href="/home"> Home </a> &gt; <span>Vestimenta</span>
+      </h4>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <h5><i class="bi bi-bookmark-fill me-2 fly-color"></i> Datos del empleado</h5>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+  <!--Informacion de la persona-->
+  <div class="row mt-3">
+    <div class="col-md-1"></div>
+
+    <div class="col-md-10">
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Apellido/s y Nombre/s</th>
+          <th scope="col">Legajo</th>
+          <th scope="col">Fecha de ingreso</th>
+          <th scope="col">Cargo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td th:text="${user.apellido + ', ' + user.nombre}"></td>
+          <td th:text="${user.legajo}"></td>
+          <td th:text="${user.fechaIngreso}"></td>
+          <td>TCP</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <!--FIN Informacion de la persona-->
+</div>
+
+<div class="row mt-3 mb-3"style="margin: inherit">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="accordion" id="vestimenta">
+      <div class="accordion-item">
+        <h5 class="accordion-header p-3 pb-0" id="headingTwo">
+          Vestimenta
+        </h5>
+        <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+             data-bs-parent="#vestimenta.">
+          <div class="accordion-body ">
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <div class="row mx-1">
+                  <div class="col-md-10 text-center" th:if="${vestimentaBuscada==null}">
+                    <p>No tiene vestimenta asignada. Por favor solicite su vestimenta</p>
+                  </div>
+                  <div class="col-md-2" th:if="${vestimentaBuscada==null}">
+                    <div class="row">
+                      <div class="col-md-12 text-start">
+                        <div class="row">
+                          <a type="button" class="btn btn-warning mx-1 my-1" title="Solicitar"
+                             th:href="@{'/tripulante/pedido-vestimenta'}">Solicitar Vestimenta</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10 text-center" th:if="${vestimentaBuscada!=null}"></div>
+                  <div class="col-md-2" th:if="${vestimentaBuscada!=null}">
+                      <div class="row">
+                        <div class="col-md-12 text-start">
+                          <div class="row">
+                              <a type="button" class="btn btn-warning mx-1 my-1" title="ver"
+                                 th:href="@{'/tripulante/vestimenta/editar/' + ${vestimentaBuscada.user.id}
+                                }" th:classappend="${vestimentaBuscada.user.id != user.id} ? 'disabled' : ''">Editar Vestimenta</a> <!-- th:classappend="${vestimentaBuscada.user.id != tripulante.id} ? 'disabled'" -->
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="" id="asd" th:if="${vestimentaBuscada!=null}">
+                  <div class="row">
+                    <label for="jacket" style="color: #aaaaaa;font-weight: 600">Jacket</label>
+                    <input class="text-start" id="jacket" th:value="'Nº '+${vestimentaBuscada.talleChaqueta}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                  <div class="row">
+                    <label for="camisa" style="color: #aaaaaa;font-weight: 600">Camisa</label>
+                    <input class="text-start" id="camisa" th:value="'Nº '+${vestimentaBuscada.talleCamisa}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                  <div class="row">
+                    <label for="pantalon" style="color: #aaaaaa;font-weight: 600">Pantalon</label>
+                    <input class="text-start" id="pantalon" th:value="'Nº '+${vestimentaBuscada.tallePantalon}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="" th:if="${vestimentaBuscada!=null}" >
+                  <div class="row">
+                    <label for="falda" style="color: #aaaaaa;font-weight: 600">Falda</label>
+                    <input class="text-start" id="falda" th:if="${vestimentaBuscada.talleFalda!=null}" th:value="'Nº '+${vestimentaBuscada.talleFalda}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                    <input class="text-start" th:if="${vestimentaBuscada.talleFalda==null}" th:value=" '-' "
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                  <div class="row">
+                    <label for="zapatos" style="color: #aaaaaa;font-weight: 600">Zapatos</label>
+                    <input class="text-start" id="zapatos" th:value="'Nº '+${vestimentaBuscada.talleZapatos}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                  <div class="row">
+                    <label for="medias" style="color: #aaaaaa;font-weight: 600">Medias</label>
+                    <input class="text-start" id="medias" th:value="'Nº '+${vestimentaBuscada.talleMedias}"
+                           style="border: none;pointer-events: none;font-weight: 600" readonly>
+                  </div>
+                </div>
+                <div class="row" style="" th:if="${vestimentaBuscada!=null}">
+                  <div class="col-7">
+                    <label for="comentario" style="color: #aaaaaa;font-weight: 600">Comentario</label>
+                    <textarea class="form-control" id="comentario"  style="width: 100%" th:text="${vestimentaBuscada.comentario}" cols="50" readonly></textarea>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+</div>
+</div>
+
+<div th:replace="common :: foot"></div>
+</body>
+</html>

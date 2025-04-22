@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+<div id="result">
+    <div class="container-fluid mt-2 mb-2">
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-auto me-auto">
+                        <h4><i class="bi bi-book-half me-2 fly-color"></i> <a class="breadcrumbs" th:href="@{'/lider/listarPedidos'}"> Pedido de vacaciones </a> > <span
+                        > Detalle de vacaciones</span>
+                        </h4>
+                    </div>
+                    <div class="col-auto text-end pb-3">
+                        <a class="btn btn-danger" href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-file-earmark-break-fill" viewBox="0 0 16 16">
+                                <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V9H2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM2 12h12v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2zM.5 10a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5z"/>
+                            </svg>
+                            Cerrar pedido
+                        </a>
+                        <a class="btn btn-warning" th:href="@{/lider/listarPedidos}">
+                            Volver
+                        </a>
+                    </div>
+
+                    <div class="mb-5" id="detallePedido">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                            aria-controls="flush-collapseOne">
+                                        Informacion del ciclo
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingOne">
+                                    <div class="accordion-body">
+                                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="" id="Ciclo">
+                                            <div class="row">
+                                                <label for="numCiclo">Nº de Ciclo</label>
+                                                <input class="text-start" id="numCiclo" th:value="${pedido.cicloVacaciones.numeroDeCiclo}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                            <div class="row">
+                                                <label for="gen">Generacion</label>
+                                                <input class="text-start" id="gen" th:value="${pedido.cicloVacaciones.generacion.numero}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                            <div class="row">
+                                                <label for="d">Desde</label>
+                                                <input class="text-start" id="d" th:value="${pedido.cicloVacaciones.comienzoCiclo}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                            <div class="row">
+                                                <label for="h">Hasta</label>
+                                                <input class="text-start" id="h" th:value="${pedido.cicloVacaciones.comienzoCiclo}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                            aria-controls="flush-collapseTwo">
+                                        Informacion del tripulante
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingTwo">
+                                    <div class="accordion-body">
+                                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" style="">
+                                            <div class="row">
+                                                <label for="leg">Nº de Legajo</label>
+                                                <input class="text-start" id="leg" th:value="${pedido.user.legajo}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                            <div class="row">
+                                                <label for="nombre">Nombre</label>
+                                                <input class="text-start" id="nombre" th:value="${pedido.user.nombre}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                            <div class="row">
+                                                <label for="apellido">Apellido</label>
+                                                <input class="text-start" id="apellido" th:value="${pedido.user.apellido}"
+                                                       style="border: none;pointer-events: none;"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                            aria-controls="flush-collapseThree"  >
+                                        Resumen Vacaciones
+                                    </button>
+                                </h2>
+
+                                <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingThree">
+                                    <div class="accordion-body">
+                                        <input class="" id="fs"
+                                               style="width:100px;text-align:center;border: none;pointer-events: none;"
+                                               readonly>
+
+                                        <div th:replace="common :: resumenvacaciones"></div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <!-- confirmacion-->
+                        <div class="mb-3 col-sm-12 col-md-6"></div>
+                        <div class="row mt-3" th:if="${confirmado != null}">
+                            <div>
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Listo!</strong>
+                                    <div class="ms-2" th:text="${confirmado}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" th:if="${error != null}">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <strong>Oops!</strong>
+                                    <div class="ms-2" th:text="${error}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--------------------------------- PLAN A ----------------------------------------->
+                        <div class="container" style="margin-top: 50px;">
+                            <div class="col">
+                                <h4>Plan A</h4>
+                            </div>
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 p-3" style="" id="planA">
+                                <div class="col" id="firstColumA">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectFirstDateA"
+                                               name="floatingSelectFirstDateA"
+                                               th:value="${pedido.fechaDesdePrimeraQuincenaPlanA}" readonly>
+                                        <label for="floatingSelectFirstDateA">Comienzo 1er Periodo</label>
+                                    </div>
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalPrimerQuincenaPlanA}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosPrimerQuincenaPlanA}"></span>
+
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+                                            th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdePrimeraQuincenaPlanA}&fecha_final=${pedido.fechaHastaPrimeraQuincenaPlanA}&tipoAusencia=VAC15|}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                    <!--
+                                    -->
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectSecondDateA"
+                                               name="floatingSelectSecondDateB"
+                                               th:value="${pedido.fechaDesdeSegundaQuincenaPlanA}" readonly>
+                                        <label for="floatingSelectSecondDateB">Comienzo 2do Periodo</label>
+                                    </div>
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalSegundaQuincenaPlanA}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosSegundaQuincenaPlanA}"></span>
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+                                           th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdeSegundaQuincenaPlanA}&fecha_final=${pedido.fechaHastaSegundaQuincenaPlanA}&tipoAusencia=VAC15|}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                    <!--
+                                                                    <input class="btn btn-warning mt-2" type="button" id="aproveSecondDateA" onclick="getValueInput(this.id)" value="Aprobar">
+                                    -->
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectThirdDateA"
+                                               name="floatingSelectThirdDateA"
+                                               th:value="${pedido.fechaDesdeDiasOpuestosPlanA}" readonly>
+                                        <label for="floatingSelectThirdDateA">Comienzo dias opuestos</label>
+                                    </div>
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalDiasOpuestosPlanA}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosDiasOpuestosPlanA}"></span>
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+
+                                           th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdeDiasOpuestosPlanA}&fecha_final=${pedido.fechaHastaDiasOpuestosPlanA}&tipoAusencia=OPUESTO10|}">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                    <!--                                <input type="date" name="hidennThirdDateA" id="hidennThirdDateA" th:value="${pedido.fechaHastaDiasOpuestosPlanA}"hidden>
+                                                                    <input class="btn btn-warning mt-2" type="button" id="aproveThirdDateA" onclick="getValueInput(this.id)" value="Aprobar">-->
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--------------------------------- PLAN B ----------------------------------------->
+                        <div class="container">
+                            <div class="col">
+                                <h4>Plan B</h4>
+                            </div>
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 p-3" id="planB">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectFirstDateB"
+                                               name="floatingSelectSecondDateB"
+                                               th:value="${pedido.fechaDesdePrimeraQuincenaPlanB}" readonly>
+                                        <label for="floatingSelectSecondDateB">Periodo 1º</label>
+                                    </div>
+
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalPrimerQuincenaPlanB}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosPrimerQuincenaPlanB}"></span>
+
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+                                           th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdePrimeraQuincenaPlanB}&fecha_final=${pedido.fechaHastaPrimeraQuincenaPlanB}&tipoAusencia=VAC15|}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectSecondDateB"
+                                               name="floatingSelectSecondDateB"
+                                               th:value="${pedido.fechaDesdeSegundaQuincenaPlanB}" readonly>
+                                        <label for="floatingSelectSecondDateB">Periodo 2º</label>
+                                    </div>
+
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalSegundaQuincenaPlanB}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosSegundaQuincenaPlanB}"></span>
+
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+                                           th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdeSegundaQuincenaPlanB}&fecha_final=${pedido.fechaHastaSegundaQuincenaPlanB}&tipoAusencia=VAC15|}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="date" id="floatingSelectThirdDateB"
+                                               name="floatingSelectThirdDateA"
+                                               th:value="${pedido.fechaDesdeDiasOpuestosPlanB}" readonly>
+                                        <label for="floatingSelectThirdDateA">Periodo dias opuestos</label>
+                                    </div>
+
+                                    <span style="opacity: 0.7">Total de cupos del Periodo    </span> <span
+                                        th:text="${cantidadDeCupoTotalDiasOpuestosPlanB}"></span>
+                                    <span style="opacity: 0.7">  Usados </span> <span
+                                        th:text="${cantidadDeCupoUsadosDiasOpuestosPlanB}"></span>
+
+                                    <div class="col-auto text-end pb-3">
+                                        <a class="btn btn-warning mt-2"
+
+                                           th:href="@{|/lider/generar-ausencia?pedidoId=${pedido.id}&fecha_inicio=${pedido.fechaDesdeDiasOpuestosPlanB}&fecha_final=${pedido.fechaHastaDiasOpuestosPlanB}&tipoAusencia=OPUESTO10|}">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aprobar
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--------------------------------- APROBAR DESDE CUPOS DISPONIBLES ----------------------------------------->
+                        <div class="container p-3">
+                            <div class="col">
+                                <a class="btn btn-link" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                                   aria-expanded="false" aria-controls="collapseExample">
+                                    <span>APROBAR DESDE CUPOS DISPONIBLES</span>
+                                </a>
+                            </div>
+                            <div class="collapse" id="collapseExample">
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 p-3" id="DesdeCuposDisponibles">
+                                    <div class="col">
+                                        <a class="btn btn-warning mt-2"
+                                           th:href="@{'/lider/generar-vacaciones-desdecuposlibres?idPedido='+${pedido.id}+'&userid='+${pedido.user.getId()}+'&tipovacacion=VAC15'}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Buscar Cupos de 15 Dias
+                                        </a>
+                                    </div>
+
+                                    <div class="col">
+                                        <a class="btn btn-warning mt-2"
+                                           th:href="@{'/lider/generar-vacaciones-desdecuposlibres?idPedido='+${pedido.id}+'&userid='+${pedido.user.getId()}+'&tipovacacion=OPUESTO10'}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Buscar Cupos de 10 Opuestos
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!---------------------------------------------------Comentarios------------------------------------------------------------->
+                        <div class="container p-3">
+                            <div class="col" style="width: 100%; margin-top: 50px">
+                                <div class="col-md-6" style="width: 100%">
+                                    <span>Comentarios del Usuario</span>
+                                    <textarea id="comentariosDelUsuario" th:field="*{pedido.comentarioDelUsuario}"
+                                              th:value="${pedido.comentarioDelUsuario}"
+                                              style="width: 100%"
+                                              readonly></textarea>
+                                </div>
+                                <form th:action="@{|/lider/guarda-comentario-cierra-pedido|}" method="post"
+                                      th:object="${newPedido}">
+                                    <input type="text" th:value="${pedido.id}" th:field="*{id}" name="" id="" hidden>
+                                    <div class="col-md-6" style="width: 100%; padding-top: 30px">
+                                        <span>Comentarios del Lider</span>
+                                        <textarea id="comentariosDelLiderEdit"
+                                                  th:value="${pedido.comentarioDelLider}"
+                                                  th:field="*{comentarioDelLider}"
+                                                  style="width: 100%"></textarea>
+                                    </div>
+                                    <div class="col text-center m-3">
+                                        <a class="btn btn-outline-secondary" th:href="@{/lider/listarPedidos}">
+                                            Cancelar
+                                        </a>
+                                        <button type="submit" class="btn btn-warning">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor"
+                                                 class="bi bi-send" viewBox="0 0 16 16">
+                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                            </svg>
+                                            Aceptar y Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--     ------------------------------BOTON ATRAS/ACEPTAR------------------------------------------     -->
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Aviso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro que deseas Cerrar el pedido?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atras</button>
+                <a type="submit" class="btn btn-primary"
+                   th:href="@{'/lider/cerrarPedido/'+${pedido.id}}">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal fechas disponibles-->
+<div class="modal fade bd-example-modal-lg 2" tabindex="5" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
+</div>
+
+<!-- Modal Comentarios-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<div th:replace="common :: foot"></div>
+<script src="/js/detalleVacaciones.js"></script>
+</body>
+</html>

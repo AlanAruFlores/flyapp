@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="common :: head"></div>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+<div th:replace="common :: nav"></div>
+
+<div id="result">
+
+    <div class="container-fluid mt-2 mb-2">
+
+        <div class="row mb-5">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <h2><i class="bi bi-book-half me-2 fly-color"></i>
+                    <a class="breadcrumbs"  href="" th:text="${title}">
+                    </a><span></span>
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a class="btn btn-warning" onclick="history.go(-1)">
+                    Volver
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form method="post" th:action="@{/tripulante/nuevo-pedido/pedido-dias-libres}" th:object="${pedidoDiasLibres}">
+                    <div class="col align-items-start">
+                        <div class="col" style="width: 100%">
+                            <h5 class="text-md-start" style="padding-top: 50px">3 dias libres</h5>
+                            <div class="row mt-3" th:if="${title == 'Editar'|| title == 'Registrar'}">
+                                <div class="row">
+                                    <input type="text"  name="" id="idPedido" th:field="*{id}" th:value="${pedidoDiasLibres.id}" hidden>
+                                    <input type="text"  name="" id="userEditar" th:field="*{user}" th:value="${user}" hidden>
+                                </div>
+                                <h6 class="text-md-start">A partir de la fecha: </h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <label for="comienzo3DiaLibre" class="form-label">Desde</label>
+                                    <input id="comienzo3DiaLibre" class="form-control" required type="date"
+                                           th:field="*{comienzo3DiasLibres}"
+                                           th:value="${pedidoDiasLibres.comienzo3DiasLibres}">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 " th:if="${title == 'Ver'}">
+                                <div class="row" >
+                                    <input type="text"  name="" id="user" th:field="*{user}" th:value="${user}" hidden>
+                                </div>
+                                <h6 class="text-md-start">A partir de la fecha: </h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <label for="comienzo3DiaLibreVer" class="form-label">Desde</label>
+                                    <span id="comienzo3DiaLibreVer" class="form-control"
+                                          th:text="${#temporals.format(pedidoDiasLibres.comienzo3DiasLibres,'dd-MM-yyyy')}">
+w                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3" th:if="${title == 'Editar'|| title == 'Registrar'}">
+                                <h6 class="text-md-start">Dia libre</h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <label  class="form-label">Fecha</label>
+                                     <input id="diaLibre" class="form-control"  type="date"
+                                           th:field="*{diaLibre}"
+                                            th:value="${pedidoDiasLibres.diaLibre}"
+                                           />
+                                </div>
+                            </div>
+                            <div class="row mt-3" th:if="${title == 'Ver'}">
+                                <h6 class="text-md-start">Dia libre</h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <label  class="form-label">Fecha</label>
+                                    <span id="diaLibreVer" class="form-control"  type="date"
+                                          th:text="${#temporals.format(pedidoDiasLibres.diaLibre,'dd-MM-yyyy')}">
+                                           <!--th:text="${pedidoDiasLibres.diaLibre}"-->
+                                    /></span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3" th:if="${title == 'Editar'|| title == 'Registrar'}">
+                                <h6 class="text-md-start">Pedido de vuelo</h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <input type="text" name="" class="form-control"
+                                           th:field="*{pedidoDeVuelo}"
+                                           th:value="${pedidoDiasLibres.pedidoDeVuelo}">
+                                </div>
+                            </div>
+                            <div class="row mt-3" th:if="${title == 'Ver'}">
+                                <h6 class="text-md-start">Pedido de vuelo</h6>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <span type="text" name="" class="form-control"  th:text="${pedidoDiasLibres.pedidoDeVuelo}"></span>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3 text-end">
+                        <div class="col-md-12" th:if="${title == 'Editar'|| title == 'Registrar'}">
+                            <button type="submit" class="btn btn-warning me-2">
+                                Guardar
+                            </button>
+                            <a class="btn btn-secondary" th:href="@{/tripulante/pedido-dias-libres}">Cancelar</a>
+
+                        </div>
+                        </div>
+                </form>
+                    </div>
+                </div>
+                <!-- Error -->
+                <div class="row mt-3" th:if="${error != null}">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <strong>Oops!</strong>
+                            <div class="ms-2" th:text="${error}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin Error -->
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
