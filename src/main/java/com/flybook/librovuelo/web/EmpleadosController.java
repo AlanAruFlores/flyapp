@@ -58,7 +58,7 @@ public class EmpleadosController {
         String encodedOrigen = URLEncoder.encode(origen, StandardCharsets.UTF_8);
         String encodedDestino = URLEncoder.encode(destino, StandardCharsets.UTF_8);
 
-        String link = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyAxP6xiQEPFAMcksSmK-ZmzUdGZbo5rukI&origin=" + encodedOrigen + "&destination=" + encodedDestino + "&avoid=tolls|highways";
+        String link = "";
 
         model.addAttribute("link", link);
         model.addAttribute("destino", destino);
